@@ -7,15 +7,18 @@ import java.sql.SQLException;
 
 
 public abstract class SqlConnection {
-    
-    public void SqlConnection (){
 
+    protected String url;
+    protected String user;
+    protected String pswd;
+    
+    public void SqlConnection (String url, String user, String pswd){
+        this.url = url;
+        this.user = user;
+        this.pswd = pswd; 
     }
-    
-    public abstract void selectById(int id);
-    public abstract void selectAll();
-    
-    public Connection connect(String url, String user, String pswd) {
+        
+    public Connection connect() {
         Connection con = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");

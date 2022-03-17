@@ -1,6 +1,6 @@
-
 package SqlDatabase;
 
+import SqlDatabase.SqlConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,41 +9,22 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-public class HerokuMySqlConnection extends SqlConnection{
+public class HerokuUsersSqlConnection extends SqlConnection{
         
-    private static HerokuMySqlConnection instance;
+    private static HerokuUsersSqlConnection instance;
     
-    private final String url;
-    private final String user;
-    private final String pswd;
+    private HerokuUsersSqlConnection(){}
     
-    private HerokuMySqlConnection(){
-        url = "jdbc:mysql://eu-cdbr-west-02.cleardb.net:3306/heroku_fc7dd2b1a888efb";
-        user = "b75ef6e13a3c31";
-        pswd = "81304c03";    
-        connect();
-    }
-    
-    public static synchronized HerokuMySqlConnection getInstance(){
+    public static synchronized HerokuUsersSqlConnection getInstance(String url, String user, String pswd){
         if(instance == null){
-            instance = new HerokuMySqlConnection();
+            instance = new HerokuUsersSqlConnection();
+            instance.SqlConnection(url, user, pswd);
         }
         return instance;
     }
-    
-    private Connection connect() {
-        Connection con = null;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(url, user, pswd);
-        } catch (SQLException | ClassNotFoundException e) {
-            System.out.println("Error al conectarse: " + e.getMessage());
-        }
-        return con;
-    }
 
-    @Override
-    public void selectAll() {
+
+    public void selectAllUsers() {
         String sql = "SELECT * FROM USERS";
         try (Connection conn = this.connect();
             Statement stmt = conn.createStatement();
@@ -55,13 +36,11 @@ public class HerokuMySqlConnection extends SqlConnection{
                         rs.getString("email") + "\t");
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error al seleccionar todo en la tabla USERS: " + e.getMessage());
         }
-
     }
-      
-    @Override
-    public void selectById(int id) {
+
+    public void selectUserById(int id) {
         
         String sql = "SELECT * FROM USERS WHERE id=" + Integer.toString(id);
 
@@ -75,12 +54,23 @@ public class HerokuMySqlConnection extends SqlConnection{
                         rs.getString("email") + "\t");
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error al seleccionar por id  en la tabla USERS: " + e.getMessage());
         }
 
     }            
-        
-    public void insert(String name, String pswd, String email) {
+ 
+    public void deleteUserById(int id) {
+        String sql = "DELETE FROM USERS WHERE id=?";
+        try (Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+                System.out.println("Error al eliminar por id en la tabla USERS: " + e.getMessage());
+            }
+    }
+    
+    public void insertUser(String name, String pswd, String email) {
         String sql = "INSERT INTO USERS(name, password, email) VALUES(?, ?, ?)";
         try (Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -89,9 +79,8 @@ public class HerokuMySqlConnection extends SqlConnection{
             pstmt.setString(3, email);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-                System.out.println("Error al insertar en USERS: " + e.getMessage());
+                System.out.println("Error al insertar en la tabla USERS: " + e.getMessage());
             }
     }
-        
-}
-
+    
+}   
