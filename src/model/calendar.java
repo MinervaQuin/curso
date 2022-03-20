@@ -1,3 +1,4 @@
+
 package model;
 
 import java.util.ArrayList;
@@ -6,11 +7,11 @@ import java.util.Date;
 
 public class calendar {
     
-    private List<dateTasks> dateTasks = new ArrayList<dateTasks>();
-    private String name;
+    private final List<dateTasks> dateTasks = new ArrayList<>();
+    private final String name;
     private String prop;
-    private List<user> editores = new ArrayList<user>();
-    private List<user> lectores = new ArrayList<user>();
+    private final List<user> editores = new ArrayList<>();
+    private final List<user> lectores = new ArrayList<>();
     
     public calendar (String name) {
         this.name = name;

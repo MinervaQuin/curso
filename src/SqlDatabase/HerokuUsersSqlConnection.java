@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.json.simple.JSONObject;
 
 
 public class HerokuUsersSqlConnection extends SqlConnection{
@@ -33,7 +34,9 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             System.out.println(rs.getInt("id") + "\t" +
                         rs.getString("name") + "\t" +
                         rs.getString("password") + "\t" +
-                        rs.getString("email") + "\t");
+                        rs.getString("email") + "\t" +
+                        rs.getString("calendar") 
+            );
             }
         } catch (SQLException e) {
             System.out.println("Error al seleccionar todo en la tabla USERS: " + e.getMessage());
@@ -51,7 +54,9 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             System.out.println(rs.getInt("id") + "\t" +
                         rs.getString("name") + "\t" +
                         rs.getString("password") + "\t" +
-                        rs.getString("email") + "\t");
+                        rs.getString("email") + "\t" +
+                        rs.getString("calendar") + "\t"
+            );
             }
         } catch (SQLException e) {
             System.out.println("Error al seleccionar por id  en la tabla USERS: " + e.getMessage());
@@ -70,13 +75,14 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             }
     }
     
-    public void insertUser(String name, String pswd, String email) {
-        String sql = "INSERT INTO USERS(name, password, email) VALUES(?, ?, ?)";
+    public void insertUser(String name, String pswd, String email, JSONObject json) {
+        String sql = "INSERT INTO USERS(name, password, email, calendar) VALUES(?, ?, ?, ?)";
         try (Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
             pstmt.setString(2, pswd);
             pstmt.setString(3, email);
+            pstmt.setString(4, json.toJSONString());
             pstmt.executeUpdate();
         } catch (SQLException e) {
                 System.out.println("Error al insertar en la tabla USERS: " + e.getMessage());
