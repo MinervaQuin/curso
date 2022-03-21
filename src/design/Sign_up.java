@@ -227,7 +227,6 @@ public class Sign_up extends javax.swing.JFrame {
         JSONObject calendars = new JSONObject();
         HerokuUsersSqlConnection bd= HerokuUsersSqlConnection.getInstance(url_alternative + "?useSSL=false", user_alternative, pswd_alternative);
         String pwd = new String(password.getPassword());
-        //bd.insertUser(nameUser.getText(), pwd, email.getText(), calendars, true); para cuando esté implementado el atributo loggin en la tabla
         bd.insertUser(nameUser.getText(), pwd, email.getText(), calendars, true);
         bd.selectAllUsers();
     }                                        
