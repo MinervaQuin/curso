@@ -75,18 +75,19 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             }
     }
     
-    public void insertUser(String name, String pswd, String email, JSONObject json) {
-        String sql = "INSERT INTO USERS(name, password, email, calendar) VALUES(?, ?, ?, ?)";
+    public void insertUser(String name, String pswd, String email, JSONObject json, int login) {
+        String sql = "INSERT INTO USERS(name, password, email, calendar, login) VALUES(?, ?, ?, ?, ?)";
         try (Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
             pstmt.setString(2, pswd);
             pstmt.setString(3, email);
             pstmt.setString(4, json.toJSONString());
+            pstmt.setByte(5, (byte) login);
             pstmt.executeUpdate();
         } catch (SQLException e) {
                 System.out.println("Error al insertar en la tabla USERS: " + e.getMessage());
             }
     }
     
-}   
+}
