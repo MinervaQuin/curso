@@ -26,9 +26,10 @@ public class Calendar {
         JSONObject json = new JSONObject();
         json.put("Json test", "This is a Json test");
         
+        /*
         for (int i = 0; i < 125; i++) {
             herokuConnection.insertUser("testingUsersSize", "testingUsersSize", "testingUsersSize", json);
-        }
+        }*/
         
         herokuConnection.selectAllUsers();
         
