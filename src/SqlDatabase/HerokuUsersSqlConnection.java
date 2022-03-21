@@ -7,7 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Logger;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 
 public class HerokuUsersSqlConnection extends SqlConnection{
@@ -77,6 +80,25 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             }
     }
         
+    public JSONObject getCalendarById(int id) throws ParseException {
+        String sql = "SELECT calendar FROM USERS WHERE id=" + Integer.toString(id);
+        JSONObject jsonObjectCalendar = null;
+        String stringCalendar = null;
+        try (Connection conn = this.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)){
+
+            if(rs.next()){stringCalendar = rs.getString("calendar");}
+
+            jsonObjectCalendar = (JSONObject) new JSONParser().parse(stringCalendar);
+                        
+        } catch (SQLException e) {
+                System.out.println("Error al obtener calendario por id en la tabla USERS: " + e.getMessage());
+            }
+        
+        return jsonObjectCalendar;
+    }
+    
     public void insertUser(String name, String pswd, String email, JSONObject json, boolean login) {
         String sql = "INSERT INTO USERS(name, password, email, calendar, login) VALUES(?, ?, ?, ?, ?)";
         try (Connection conn = this.connect();
