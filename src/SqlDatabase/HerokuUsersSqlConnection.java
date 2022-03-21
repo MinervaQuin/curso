@@ -35,7 +35,8 @@ public class HerokuUsersSqlConnection extends SqlConnection{
                         rs.getString("name") + "\t" +
                         rs.getString("password") + "\t" +
                         rs.getString("email") + "\t" +
-                        rs.getString("calendar") 
+                        rs.getString("calendar") + "\t" +
+                        rs.getString("login") 
             );
             }
         } catch (SQLException e) {
@@ -55,7 +56,8 @@ public class HerokuUsersSqlConnection extends SqlConnection{
                         rs.getString("name") + "\t" +
                         rs.getString("password") + "\t" +
                         rs.getString("email") + "\t" +
-                        rs.getString("calendar") + "\t"
+                        rs.getString("calendar") + "\t" +
+                        rs.getString("login") 
             );
             }
         } catch (SQLException e) {
@@ -74,8 +76,8 @@ public class HerokuUsersSqlConnection extends SqlConnection{
                 System.out.println("Error al eliminar por id en la tabla USERS: " + e.getMessage());
             }
     }
-    
-    public void insertUser(String name, String pswd, String email, JSONObject json, int login) {
+        
+    public void insertUser(String name, String pswd, String email, JSONObject json, boolean login) {
         String sql = "INSERT INTO USERS(name, password, email, calendar, login) VALUES(?, ?, ?, ?, ?)";
         try (Connection conn = this.connect();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -83,7 +85,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             pstmt.setString(2, pswd);
             pstmt.setString(3, email);
             pstmt.setString(4, json.toJSONString());
-            pstmt.setByte(5, (byte) login);
+            pstmt.setBoolean(5, login);
             pstmt.executeUpdate();
         } catch (SQLException e) {
                 System.out.println("Error al insertar en la tabla USERS: " + e.getMessage());
