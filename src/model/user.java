@@ -20,12 +20,7 @@ public class user {
         this.email = email;
         this.pwd = pwd;
     }
-    
-    /**
-     * Añadir método de añadir usuario
-     * @return 
-     */   
-    
+
     
     
     @Override
