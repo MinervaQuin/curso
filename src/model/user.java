@@ -1,16 +1,36 @@
-
 package model;
 
 public class user {
     
-    private int id;
-    private String name;
-    private String pwd;
-    private String email;
-    //private list invitaciones
+    private final int id;
+    private final String name;
+    private final String pwd;
+    private final String email;
     
-    public user () {
-        
+    public user (Integer id, String name, String email, String pwd) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.pwd = pwd;       
+    }
+    
+    public user (Integer id, String email, String pwd) {
+        this.id = id;
+        this.name = email;
+        this.email = email;
+        this.pwd = pwd;
+    }
+    
+    /**
+     * Añadir método de añadir usuario
+     * @return 
+     */   
+    
+    
+    
+    @Override
+    public String toString(){
+        return "ID: " + id + ", Nombre: " + name + ", Email: " + email + ", Contraseña: " + pwd;
     }
     
 }
