@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.Map;
 
 public class calendar {
     
     @JsonProperty("dateTasks")
-    private final List<dateTasks> dateTasks = new ArrayList<>();
+    private final Map<String, List<task>> dateTasks = new HashMap<>();
     
     @JsonProperty("name")
     private String name;
@@ -29,25 +33,52 @@ public class calendar {
         this.name = name;
     }
     
-    public dateTasks getDayTask (String date) {
-        // Modificar
-        /*
-        for (dateTasks dateTask : dateTasks) {
-            if(date.equals(dateTask.getDate())) return dateTask;
+    // Método para modificar una tarea
+    public void setTask(String date, int position, task newTask) {
+        Iterator i = dateTasks.entrySet().iterator();
+        List l = new ArrayList<>();
+        while(i.hasNext()) {
+            Map.Entry<String, List<task>> entry = (Map.Entry)i.next();
+            if (entry.getKey().equals(date)) {
+                l = entry.getValue();
+                l.set(position, newTask);
+            }
         }
-    */  
-        return null;
     }
     
-    public List<dateTasks> getAllTask () {
-        return dateTasks;
+    // Método para añadir una tarea
+    public void addTask(String date, task t) {
+        Iterator i = dateTasks.entrySet().iterator();
+        List l = new ArrayList<>();
+        while (i.hasNext()) {
+            Map.Entry<String, List<task>> entry = (Map.Entry)i.next();
+            if (entry.getKey().equals(date)) {
+                l = entry.getValue();
+                l.add(t);
+                break;
+            }
+        }
+        if (l.isEmpty()) {
+            l.add(t);
+        }
+        dateTasks.put(date, l);
     }
     
-    public void setTask(String date, String name) {
-        task t = new task(name);
-        dateTasks dateTask = new dateTasks(date);
-        dateTask.addTask(t);
-        this.dateTasks.add(dateTask);
+    // Método para obtener todas las tareas de una fecha
+    public List<task> getTasks(String date) {
+        Iterator i = dateTasks.entrySet().iterator();
+        List l = new ArrayList<>();
+        while (i.hasNext()) {
+            Map.Entry<String, List<task>> entry = (Map.Entry)i.next();
+            if (entry.getKey().equals(date)) {
+                l = entry.getValue();
+            }
+        }
+        Iterator j = l.iterator();
+        while (j.hasNext()) {
+            task t = (task)j.next();
+        }
+        return l;
     }
     
     public String getName(){
@@ -57,12 +88,12 @@ public class calendar {
     @Override
     public String toString(){
         String c = "";
-        for (dateTasks i : dateTasks) {
+        /*for (dateTasks i : dateTasks) {
             c += i.toString() + ", ";
         }
         c = c.substring(0, c.length() - 2);
-        return "["+ "{Nombre: " + name + "}, {Tareas: " + c + "}]";
-        
+        return "["+ "{Nombre: " + name + "}, {Tareas: " + c + "}]";*/
+        return c;
     }
     
 }

@@ -37,13 +37,14 @@ public class Calendar {
         Date date = formatter.parse(stringDate);
 
         System.out.println("(Date type) -> " + date + " (String type)-> " + stringDate); 
+       
+        task t = new task("");
         
+        c.setTask(stringDate, 0, t);
         
-        c.setTask(stringDate, "Mi tarea");
-        
-        c.setTask(stringDate, "Mi tarea 2");
+        c.setTask(stringDate, 0, t);
 
-        c.setTask(stringDate, "Mi tarea 3");       
+        c.setTask(stringDate, 0, t);
         
         
         
