@@ -174,14 +174,4 @@ public class HerokuUsersSqlConnection extends SqlConnection{
         }
         return false;
     }
-
-    private void signOff2(String email){
-        String Ssql = "UPDATE USERS SET login=" + true + "WHERE email=" + email;
-        try (Connection conn = this.connect()){
-            PreparedStatement prest = conn.prepareStatement(Ssql);
-            prest.setBoolean(5, false);
-        } catch (SQLException ex) {
-            Logger.getLogger(HerokuUsersSqlConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 }
