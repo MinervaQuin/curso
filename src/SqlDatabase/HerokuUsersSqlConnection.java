@@ -1,8 +1,6 @@
 package SqlDatabase;
 
-import SqlDatabase.SqlConnection;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +16,7 @@ import org.json.simple.parser.ParseException;
 public class HerokuUsersSqlConnection extends SqlConnection{
         
     private static HerokuUsersSqlConnection instance;
+    private String emailUser;
     
     private HerokuUsersSqlConnection(){}
     
@@ -117,21 +116,31 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     }
     
     public boolean login(String email, String pswd) throws SQLException {
-        // Por alguna razón, da error si el email contiene una '@'
-        // Ejemplo: Si un usuario tiene de email 123@email, aunque exista en
-        // la base de datos, la consulta da error.
-        // Por tanto, probar sin caracteres especiales
         
-        String sql = "SELECT email, password FROM USERS WHERE email=" + email + " AND password=" + pswd;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = this.connect();
         
-        try (Connection conn = this.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql)){
-            while (rs.next()) {
+        String sql = "SELECT email, password, login FROM USERS WHERE email=?";
+        
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
                 System.out.println(rs.getString("email"));
                 System.out.println(rs.getString("password"));
-                if(rs.getString("email").equals(email) && rs.getString("password").equals(pswd)){ 
-                    updateLogin(email);
+                if(rs.getString(2).equals(pswd)){ 
+                    
+                    String sqlUpdate = "UPDATE USERS SET login=? WHERE email=?";
+                    
+                    ps = conn.prepareStatement(sqlUpdate);
+                    ps.setBoolean(1, true);
+                    ps.setString(2, email);
+                    ps.execute();
+                    
+                    emailUser = email;
                     return true;
                 }
             }
@@ -141,29 +150,24 @@ public class HerokuUsersSqlConnection extends SqlConnection{
         return false;
     }
 
-    private void updateLogin(String email){
-        String Ssql = "UPDATE USERS SET login=? WHERE email=" + email;
-        try (Connection conn = this.connect()){
-            PreparedStatement prest = conn.prepareStatement(Ssql);
-            prest.setBoolean(5, true);
-        } catch (SQLException ex) {
-            Logger.getLogger(HerokuUsersSqlConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public boolean signOff(String email) throws SQLException {
-        String sql = "SELECT DISTINCT id, email FROM USERS WHERE email=" + email;
+    public boolean signOut() throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Connection conn = this.connect();
         
-        try (Connection conn = this.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql)){
-            while (rs.next()) {
-                System.out.println(rs.getString("email"));
-                System.out.println(rs.getString("password"));
-                if(rs.getString("email").equals(email)){ 
-                    signOff2(email);
-                    return true;
-                }
+        String sql = "SELECT login FROM USERS WHERE email=?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, emailUser);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                String sqlUpdate = "UPDATE USERS SET login=? WHERE email=?";
+                
+                ps = conn.prepareStatement(sqlUpdate);
+                ps.setBoolean(1, false);
+                ps.setString(2, emailUser);
+                ps.execute();
+                return true;
             }
         } catch (SQLException e) {
             System.out.println("Error al autentificar en la tabla USERS: " + e.getMessage());
