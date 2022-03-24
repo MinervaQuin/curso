@@ -23,7 +23,7 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     public Login() {
-        initComponents();        
+        initComponents();
         this.setLocationRelativeTo(null);
         this.setExtendedState(MAXIMIZED_BOTH);
     }
@@ -38,43 +38,38 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         imagen = new javax.swing.JLabel();
-        welcome = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        textoEmail = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
-        textoContraseña = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         contraseña = new javax.swing.JPasswordField();
         Login = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
+        SignUp = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         imagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagenes/fondo_login.jpg"))); // NOI18N
+        imagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/design/imagenes/fondo_login.jpg"))); // NOI18N
         imagen.setText("jLabel1");
 
-        welcome.setText("Welcome back");
+        jLabel2.setText("Welcome back");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel5.setText("Login to your account");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel3.setText("Login to your account");
 
-        textoEmail.setForeground(new java.awt.Color(153, 153, 153));
-        textoEmail.setText("Email");
+        jLabel4.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel4.setText("Email");
 
+        email.setToolTipText("");
         email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailActionPerformed(evt);
             }
         });
 
-        textoContraseña.setForeground(new java.awt.Color(153, 153, 153));
-        textoContraseña.setText("Password");
-
-        contraseña.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contraseñaActionPerformed(evt);
-            }
-        });
+        jLabel5.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel5.setText("Password");
 
         Login.setText("Login now");
         Login.addActionListener(new java.awt.event.ActionListener() {
@@ -83,54 +78,60 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("Dont have an account? Join freee today");
+        SignUp.setText("Dont have an account? Join free today");
+        SignUp.setBorderPainted(false);
+        SignUp.setContentAreaFilled(false);
+        SignUp.setFocusPainted(false);
+        SignUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SignUpActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 586, Short.MAX_VALUE)
-                .addGap(2, 2, 2)
+                .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 658, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
+                        .addGap(50, 50, 50)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(welcome)
+                            .addComponent(Login, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
                             .addComponent(jLabel5)
-                            .addComponent(textoEmail)
-                            .addComponent(textoContraseña)
-                            .addComponent(email)
-                            .addComponent(contraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(40, 40, 40))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(Login, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(47, 47, 47))
+                            .addComponent(contraseña)
+                            .addComponent(email))
+                        .addGap(38, 38, 38))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SignUp)
+                        .addGap(75, 75, 75))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(welcome)
-                .addGap(27, 27, 27)
-                .addComponent(jLabel5)
-                .addGap(27, 27, 27)
-                .addComponent(textoEmail)
-                .addGap(18, 18, 18)
-                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(95, 95, 95)
+                .addComponent(jLabel2)
                 .addGap(38, 38, 38)
-                .addComponent(textoContraseña)
+                .addComponent(jLabel3)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addComponent(contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addComponent(contraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
                 .addComponent(Login)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel9)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SignUp)
+                .addContainerGap(379, Short.MAX_VALUE))
         );
 
         pack();
@@ -140,10 +141,16 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                     
 
+    private void SignUpActionPerformed(java.awt.event.ActionEvent evt) {                                       
+        Sign_up su = new Sign_up();
+        su.setVisible(true);
+        this.setVisible(false);
+    }                                      
+
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {                                      
         String email_text= email.getText();
         String contraseña_text = String.valueOf(contraseña.getPassword());
-        Pattern pat_email = Pattern.compile("[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,4}");
+        /*Pattern pat_email = Pattern.compile("[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,4}");
         Matcher mat_email = pat_email.matcher(email_text);
         Pattern pat_password = Pattern.compile("^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,15}$");
         Matcher mat_password = pat_password.matcher(contraseña_text);
@@ -165,27 +172,27 @@ public class Login extends javax.swing.JFrame {
         }else if(!mat_password.matches()){
             JOptionPane.showMessageDialog(null, "Se esperaba una contraseña con mínimo una minúscula, una masyúscula, un dígito numérico y sin espacios");
             System.out.println("Se esperaba una contraseña con mínimo una minúscula, una masyúscula, un dígito numérico y sin espacios");
-        }else{
+        }else{*/
             System.out.println("Email = " + email_text);
             System.out.println("Contraseña = " + contraseña_text);
             HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance("jdbc:mysql://i54jns50s3z6gbjt.chr7pe7iynqr.eu-west-1.rds.amazonaws.com/iy5jkxqnaep9jd04" + "?useSSL=false", "e3uv1gsfsu6r8v6j", "ud6g593tlbsh3knw");
             try {
                 if(conex.login(email_text,contraseña_text)){
-                    System.out.println("--- Sale de login ---");
-                    this.setVisible(false);
                     JOptionPane.showMessageDialog(null, "Login correcto");
                     System.out.println("Login correcto");
+                    MainPage mp = new MainPage();
+                    mp.setVisible(true);
+                    this.setVisible(false);
+                }else {
+                    JOptionPane.showMessageDialog(null, "Login incorrecto");
+                    System.out.println("Login incorrecto");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+       //  }
     }                                     
 
-    private void contraseñaActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        // TODO add your handling code here:
-    }                                          
-                                 
     /**
      * @param args the command line arguments
      */
@@ -219,17 +226,17 @@ public class Login extends javax.swing.JFrame {
                 new Login().setVisible(true);
             }
         });
-    }                 
+    }
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton Login;
+    private javax.swing.JButton SignUp;
     private javax.swing.JPasswordField contraseña;
     private javax.swing.JTextField email;
     private javax.swing.JLabel imagen;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel textoContraseña;
-    private javax.swing.JLabel textoEmail;
-    private javax.swing.JLabel welcome;
     // End of variables declaration                   
 }
