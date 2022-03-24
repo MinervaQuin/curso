@@ -23,9 +23,24 @@ public class user {
 
     
     
+<<<<<<< Updated upstream
     @Override
     public String toString(){
         return "ID: " + id + ", Nombre: " + name + ", Email: " + email + ", Contraseña: " + pwd;
+=======
+    public user (int id, String name, String pwd, String email) {
+        this.id = id;
+        this.name = name;
+        this.pwd = pwd;
+        this.email = email;
+    }
+ 
+    public user (int id, String pwd, String email) {
+        this.id = id;
+        this.name = email;
+        this.pwd = pwd;
+        this.email = email;
+>>>>>>> Stashed changes
     }
     
 }

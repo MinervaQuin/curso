@@ -9,6 +9,8 @@ import java.util.List;
 
 public class dateTasks {
     
+    // mapa clave(fecha), valor(tarea)
+    
     @JsonProperty("tasks")
     private List<task> tasks;
     

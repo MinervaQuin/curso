@@ -18,11 +18,15 @@ public class calendar {
     @JsonProperty("name")
     private String name;
     
-    @JsonProperty("prop")
-    private String prop;
+    @JsonProperty("idOwner")
+    private Integer idOwner;
+    
+    
+    // mapa clave(id usuario), valor(permiso:editor, lector)
+    
     
     @JsonProperty("editores")
-    private final List<user>  editores = new ArrayList<>();
+    private final List<Integer>  editores = new ArrayList<>();
     
     @JsonProperty("lectores")
     private final List<user> lectores = new ArrayList<>();
@@ -44,6 +48,11 @@ public class calendar {
                 l.set(position, newTask);
             }
         }
+<<<<<<< Updated upstream
+=======
+        */  
+        return null;
+>>>>>>> Stashed changes
     }
     
     // Método para añadir una tarea
@@ -92,8 +101,12 @@ public class calendar {
             c += i.toString() + ", ";
         }
         c = c.substring(0, c.length() - 2);
+<<<<<<< Updated upstream
         return "["+ "{Nombre: " + name + "}, {Tareas: " + c + "}]";*/
         return c;
+=======
+        return "["+ "{Nombre: " + name + "}, {Tareas: " + c + "}]";
+>>>>>>> Stashed changes
     }
     
 }
