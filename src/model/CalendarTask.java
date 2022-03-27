@@ -5,15 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Map;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
-public class calendar {
+public class CalendarTask extends JsonSql{
     
     @JsonProperty("dateTasks")
-    private final Map<String, List<task>> dateTasks = new HashMap<>();
+    private final Map<String, List<Task>> dateTasks = new HashMap<>();
     
     @JsonProperty("name")
     private String name;
@@ -29,38 +34,34 @@ public class calendar {
     private final List<Integer>  editores = new ArrayList<>();
     
     @JsonProperty("lectores")
-    private final List<user> lectores = new ArrayList<>();
+    private final List<User> lectores = new ArrayList<>();
     
-    public calendar (){}
+    public CalendarTask (){}
     
-    public calendar (String name) {
+    public CalendarTask (String name) {
         this.name = name;
     }
+
     
     // Método para modificar una tarea
-    public void setTask(String date, int position, task newTask) {
+    public void setTask(String date, int position, Task newTask) {
         Iterator i = dateTasks.entrySet().iterator();
         List l = new ArrayList<>();
         while(i.hasNext()) {
-            Map.Entry<String, List<task>> entry = (Map.Entry)i.next();
+            Map.Entry<String, List<Task>> entry = (Map.Entry)i.next();
             if (entry.getKey().equals(date)) {
                 l = entry.getValue();
                 l.set(position, newTask);
             }
         }
-<<<<<<< Updated upstream
-=======
-        */  
-        return null;
->>>>>>> Stashed changes
     }
     
     // Método para añadir una tarea
-    public void addTask(String date, task t) {
+    public void addTask(String date, Task t) {
         Iterator i = dateTasks.entrySet().iterator();
         List l = new ArrayList<>();
         while (i.hasNext()) {
-            Map.Entry<String, List<task>> entry = (Map.Entry)i.next();
+            Map.Entry<String, List<Task>> entry = (Map.Entry)i.next();
             if (entry.getKey().equals(date)) {
                 l = entry.getValue();
                 l.add(t);
@@ -74,20 +75,33 @@ public class calendar {
     }
     
     // Método para obtener todas las tareas de una fecha
-    public List<task> getTasks(String date) {
+    public List<Task> getTasks(String date) {
         Iterator i = dateTasks.entrySet().iterator();
         List l = new ArrayList<>();
         while (i.hasNext()) {
-            Map.Entry<String, List<task>> entry = (Map.Entry)i.next();
+            Map.Entry<String, List<Task>> entry = (Map.Entry)i.next();
             if (entry.getKey().equals(date)) {
                 l = entry.getValue();
             }
         }
         Iterator j = l.iterator();
         while (j.hasNext()) {
-            task t = (task)j.next();
+            Task t = (Task)j.next();
         }
         return l;
+    }
+    
+        
+    public static CalendarTask getCalendarFromJson(JSONObject jsonObject, String name) throws ParseException, JsonProcessingException{
+        
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        JSONObject getJson = (JSONObject) jsonObject.get(name);
+        
+        CalendarTask mapped = (CalendarTask) objectMapper.readValue(getJson.toJSONString(), CalendarTask.class);
+        return mapped;
+        
     }
     
     public String getName(){
@@ -96,17 +110,10 @@ public class calendar {
     
     @Override
     public String toString(){
-        String c = "";
-        /*for (dateTasks i : dateTasks) {
-            c += i.toString() + ", ";
-        }
-        c = c.substring(0, c.length() - 2);
-<<<<<<< Updated upstream
-        return "["+ "{Nombre: " + name + "}, {Tareas: " + c + "}]";*/
-        return c;
-=======
-        return "["+ "{Nombre: " + name + "}, {Tareas: " + c + "}]";
->>>>>>> Stashed changes
+        return name;
     }
+    
+
+           
     
 }

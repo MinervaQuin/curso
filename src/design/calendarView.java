@@ -14,7 +14,7 @@ public class calendarView extends javax.swing.JFrame {
     
     private int actualMonth;
     private int actualYear;
-    private calendar actualCalendar;
+    private CalendarTask actualCalendar;
     
     // Constructor
     public calendarView() {
@@ -28,32 +28,32 @@ public class calendarView extends javax.swing.JFrame {
     
     // Test para añadir tareas al calendario
     public void test() {
-        calendar c = new calendar("prueba");
-        task t = new task("Esto es una prueba");
+        CalendarTask c = new CalendarTask("prueba");
+        Task t = new Task("Esto es una prueba");
         String date = "2022-03-23";
         c.addTask(date, t);
-        t = new task("Esto es una prueba1");
+        t = new Task("Esto es una prueba1");
         c.addTask(date, t);
-        t = new task("Esto es una prueba2");
+        t = new Task("Esto es una prueba2");
         c.addTask(date, t);
-        t = new task("Esto es una prueba3");
+        t = new Task("Esto es una prueba3");
         c.addTask(date, t);
         date = "2022-03-24";
-        t = new task("Esto es una prueba1");
+        t = new Task("Esto es una prueba1");
         c.addTask(date, t);
         date = "2022-03-23";
         //List l = c.getTasks(date);
         date = "2022-03-23";
         for (int i = 0; i < 7; i++) {
             date = "2022-02-2" + i;
-            t = new task("En el mes actual");
+            t = new Task("En el mes actual");
             c.addTask(date, t);
             c.addTask(date, t);
             c.addTask(date, t);
         }
         //l = c.getTasks(date);
         this.actualCalendar = c;
-        task t1 = new task("Cambiado");
+        Task t1 = new Task("Cambiado");
         c.setTask(date, 1, t1);
     }
     
@@ -78,7 +78,7 @@ public class calendarView extends javax.swing.JFrame {
                     } else {
                         date += "-" + day;
                     }
-                    List<task> tasks = actualCalendar.getTasks(date);
+                    List<Task> tasks = actualCalendar.getTasks(date);
                     String[] content = new String[tasks.size()+1];
                     content[0] = Integer.toString(day);
                     for (int k = 1; k < content.length; k++) {

@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.JsonSql;
-import model.calendar;
-import model.dateTasks;
-import model.task;
+import model.CalendarTask;
+import model.DateTasks;
+import model.Task;
 import org.json.JSONArray;
 import org.json.simple.JSONObject; 
 import org.json.simple.parser.JSONParser;
@@ -32,61 +32,61 @@ public class Calendar {
         
         HerokuUsersSqlConnection herokuConnection = HerokuUsersSqlConnection.getInstance(url + "?useSSL=false", user, pswd);
                 
-        calendar calendar1 = new calendar("calendar n1");
-        calendar calendar2 = new calendar("calendar n2");
+        /*
+        Una columna para cada permiso de calendario -> json owner, json lector, json editor ¿?
+        
+        repetir los json por cada usuario invitado no es una vía
+        pues si lo modifica un editor, hay que modificarlo para todos los usurios accediendo
+        a la tabla tantas veces como usuario tenga acceso
+        
+        -> por tanto es mejor tener una tabla separar con punteros desde los
+        usuarios que tenga acceso
+        
+        -> una columna para los json owner, json editor, json lector
+        y en cada columa el id del usuario
+        
+        -> p.e: usuario con id en clumna json editor apunta al mismo calendario
+        que otro tenga en su columna json owner
+        
+        */
+        
+        CalendarTask calendar1 = new CalendarTask("calendar n1");
+        CalendarTask calendar2 = new CalendarTask("calendar n2");
+        CalendarTask calendar3 = new CalendarTask("calendar n3");
 
         String stringDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
         Date date = formatter.parse(stringDate);
-<<<<<<< Updated upstream
 
-        System.out.println("(Date type) -> " + date + " (String type)-> " + stringDate); 
-       
-        task t = new task("");
-        
-        c.setTask(stringDate, 0, t);
-        
-        c.setTask(stringDate, 0, t);
 
-        c.setTask(stringDate, 0, t);
-        
-        
-=======
         // System.out.println("(Date type) -> " + date + " (String type)-> " + stringDate); 
->>>>>>> Stashed changes
         
-        calendar1.setTask(stringDate, "Mi tarea n1 para calendar1");
-        calendar1.setTask(stringDate, "Mi tarea n2 para calendar1");
-        calendar2.setTask(stringDate, "Mi tarea n1 para calendar2");       
-        /* 
-        JSONObject json = new JSONObject();
-        json.put(calendar1.getName(), calendar1);
-        json.put(calendar2.getName(), calendar2);
-        
-        String jsonString = new Gson().toJson(json);
-        JSONObject jsonCalendar = (JSONObject) new JSONParser().parse(jsonString);
-        */
-        List<calendar> objects =  new ArrayList<>();
-        objects.add(calendar1);
-        objects.add(calendar2);
-        JSONObject jsonCalendar = JsonSql.getListJson(objects);
-        
-        herokuConnection.selectAllUsers();
-        // herokuConnection.insertUser("listJson1", "listJson1", "listJson1", jsonCalendar, false);
-          
-        JSONObject getJsonCalendar = herokuConnection.getCalendarById(17);
-        
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                
-        JSONObject getJsonCalendarArray = (JSONObject) getJsonCalendar.get("calendar n2");
-        System.out.println(getJsonCalendar); 
-        calendar c_1 = (calendar) objectMapper.readValue(getJsonCalendarArray.toJSONString(), calendar.class);
-        System.out.println("Calendario obtenido: " + c_1.toString());
-        
-        
-        // encapsular json en calendar
+        calendar1.addTask(stringDate, new  Task("Mi tarea n1 para calendar1"));
+        calendar1.addTask(stringDate, new  Task("Mi tarea n2 para calendar1"));
+        calendar2.addTask(stringDate, new  Task("Mi tarea n1 para calendar2"));
+        calendar3.addTask(stringDate, new  Task("Mi tarea n1 para calendar3"));
 
+        
+        List<Object> test = new ArrayList<>();
+        test.add(calendar3);
+        
+
+        JSONObject writeJsonCalendar = (JSONObject) JsonSql.getListJson(test);
+        herokuConnection.insertUser("listJson5", "listJson5", "listJson5", writeJsonCalendar, false);
+                        
+        JSONObject getJsonCalendar = herokuConnection.getCalendarById(44);
+        
+        
+        CalendarTask c_1 = (CalendarTask) CalendarTask.getCalendarFromJson(getJsonCalendar, "calendar n3");
+        System.out.println("Calendario obtenido: " + c_1.getName());
+        
+        
+        
+        // encapsular json en CalendarTask
+        
+        // herokuConnection.insertUser("listJson4", "listJson4", "listJson4", jsonCalendarTest, false);
+        
+        // herokuConnection.selectAllUsers();
         
     }
     
