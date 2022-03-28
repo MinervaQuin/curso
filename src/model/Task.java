@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
-public class task {
+public class Task {
     
     @JsonProperty("name")
     private String name;
     
-    public task () {}
+    public Task () {}
    
-    public task (String name) {
+    public Task (String name) {
         this.name = name;
     }
     

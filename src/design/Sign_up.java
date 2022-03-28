@@ -5,7 +5,7 @@
  */
 package design;
 
-import SqlDatabase.HerokuUsersSqlConnection;
+import SqlDatabase.HerokuUserSqlConnection;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import org.json.simple.JSONObject;
@@ -222,7 +222,7 @@ public class Sign_up extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
        
-        HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();     
+        HerokuUserSqlConnection conex = HerokuUserSqlConnection.getInstance();     
         String pwd = new String(password.getPassword());
         conex.insertUser(nameUser.getText(), pwd, email.getText(), true);
         conex.selectAllUsers();

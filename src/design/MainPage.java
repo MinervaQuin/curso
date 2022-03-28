@@ -4,7 +4,7 @@
  */
 package design;
 
-import SqlDatabase.HerokuUsersSqlConnection;
+import SqlDatabase.HerokuUserSqlConnection;
 import java.awt.Color;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import model.user;
+import model.User;
 
 /**
  *
@@ -228,7 +228,7 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void singoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_singoutActionPerformed
-        HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();
+        HerokuUserSqlConnection conex = HerokuUserSqlConnection.getInstance();
         try {
             if(conex.signOut()){
                 System.out.println("El signOut se ha realizado de forma correcta");

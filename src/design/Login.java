@@ -5,14 +5,14 @@
  */
 package design;
 
-import SqlDatabase.HerokuUsersSqlConnection;
+import SqlDatabase.HerokuUserSqlConnection;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-import model.user;
+import model.User;
 
 /**
  *
@@ -173,7 +173,7 @@ public class Login extends javax.swing.JFrame {
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
         String email_text= email.getText();
         String contraseña_text = String.valueOf(contraseña.getPassword());
-        user user = new user();
+        User user = new User();
         
         /*Pattern pat_email = Pattern.compile("[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,4}");
         Matcher mat_email = pat_email.matcher(email_text);
@@ -200,7 +200,7 @@ public class Login extends javax.swing.JFrame {
         }else{*/
             System.out.println("Email = " + email_text);
             System.out.println("Contraseña = " + contraseña_text);
-            HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();
+            HerokuUserSqlConnection conex = HerokuUserSqlConnection.getInstance();
             try {
                 user.setEmail(email_text);
                 user.setPwd(contraseña_text);

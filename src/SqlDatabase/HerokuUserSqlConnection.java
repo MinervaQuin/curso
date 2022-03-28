@@ -8,37 +8,34 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import model.user;
+import model.User;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
-public class HerokuUsersSqlConnection extends SqlConnection{
+public class HerokuUserSqlConnection extends SqlConnection{
         
-    private static HerokuUsersSqlConnection instance;
+    private static HerokuUserSqlConnection instance;
     private String emailUser;
+        
+    private HerokuUserSqlConnection(){}
     
-    PreparedStatement ps;
-    ResultSet rs;
-    
-    private HerokuUsersSqlConnection(){}
-    
-    public static synchronized HerokuUsersSqlConnection getInstance(){
+    public static synchronized HerokuUserSqlConnection getInstance(){
         if(instance == null){
-            instance = new HerokuUsersSqlConnection();
-            instance.getConexion();
+            instance = new HerokuUserSqlConnection();
+            instance.getSqlConnection();
         }
         return instance;
     }
 
     public void selectAllUsers() {
         String sql = "SELECT * FROM users";
-        try (Connection conn = this.getConexion();
+        try (Connection conn = this.getSqlConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)){
             while (rs.next()) {
-            System.out.println(rs.getInt("id_user") + "\t" +
+            System.out.println(rs.getInt("user_id") + "\t" +
                         rs.getString("name") + "\t" +
                         rs.getString("password") + "\t" +
                         rs.getString("email") + "\t" +
@@ -46,22 +43,21 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             );
             }
         } catch (SQLException e) {
-            System.out.println("Error al seleccionar todo en la tabla USERS: " + e.getMessage());
+            System.out.println("Error al seleccionar todo en la tabla USER: " + e.getMessage());
         }
     }
 
     public void selectUserById(int id) {
-        Connection conn = getConexion();
+        Connection conn = getSqlConnection();
         
         try{
-            ps = conn.prepareStatement("SELECT * FROM users WHERE id_user=" + Integer.toString(id));
-            ps.setInt(1, id);
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM user WHERE user_id=" + Integer.toString(id));
             
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             
             if (rs.next()) {
                 
-                System.out.println(rs.getInt("id_user") + "\t" +
+                System.out.println(rs.getInt("user_id") + "\t" +
                 rs.getString("name") + "\t" +
                 rs.getString("password") + "\t" +
                 rs.getString("email") + "\t" +
@@ -73,17 +69,17 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             }
             
         } catch (SQLException e) {
-            System.out.println("Error al seleccionar por id  en la tabla USERS: " + e.getMessage());
+            System.out.println("Error al seleccionar por id  en la tabla USER: " + e.getMessage());
         }
 
     }            
  
     public void deleteUserById(int id) {
         
-        Connection conn = getConexion();
+        Connection conn = getSqlConnection();
         
         try{
-            ps = conn.prepareStatement("DELETE FROM users WHERE id_user=?");
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM user WHERE user_id=?");
             ps.setInt(1, id);
             
             int res = ps.executeUpdate();
@@ -99,35 +95,15 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             conn.close();
             
         }catch (SQLException e) {
-                System.out.println("Error al eliminar por id en la tabla USERS: " + e.getMessage());
+                System.out.println("Error al eliminar por id en la tabla USER: " + e.getMessage());
             }
     }
-     /*
-    public JSONObject getCalendarById(int id) throws ParseException {
-        String sql = "SELECT calendar FROM USERS WHERE id=" + Integer.toString(id);
-        JSONObject jsonObjectCalendar = null;
-        String stringCalendar = null;
-        try (Connection conn = this.getConexion();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql)){
-
-            if(rs.next()){stringCalendar = rs.getString("calendar");}
-
-            jsonObjectCalendar = (JSONObject) new JSONParser().parse(stringCalendar);
-                        
-        } catch (SQLException e) {
-                System.out.println("Error al obtener calendario por id en la tabla USERS: " + e.getMessage());
-            }
-        
-        return jsonObjectCalendar;
-    }
-
-*/
+    
     
     public void insertUser(String name, String pswd, String email, boolean login) {
-        Connection conn = getConexion();        
+        Connection conn = getSqlConnection();        
         try{
-            ps = conn.prepareStatement("INSERT INTO users(name, password, email, login) VALUES(?, ?, ?, ?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO user(name, password, email, login) VALUES(?, ?, ?, ?)");
             ps.setString(1, name);
             ps.setString(2, pswd);
             ps.setString(3, email);
@@ -146,18 +122,18 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             conn.close();
             
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al insertar en la tabla users: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al insertar en la tabla user: " + e.getMessage());
             System.out.println("Error al insertar en la tabla users: " + e.getMessage());
         }
     }
     
-    public boolean login(user user) throws SQLException {
+    public boolean login(User user) throws SQLException {
         
-        Connection conn = getConexion();
+        Connection conn = getSqlConnection();
         try{
-            ps = conn.prepareStatement("SELECT id_user, name, email, password, login FROM users WHERE email=?");
+            PreparedStatement ps = conn.prepareStatement("SELECT user_id, name, email, password, login FROM user WHERE email=?");
             ps.setString(1, user.getEmail());
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 if(user.getPwd().equals(rs.getString(4))){                     
                     ps = conn.prepareStatement("UPDATE users SET login=? WHERE email=?");
@@ -178,17 +154,17 @@ public class HerokuUsersSqlConnection extends SqlConnection{
                 }
             }
         }catch (SQLException e) {
-            System.out.println("Error al autentificar en la tabla users: " + e.getMessage());
+            System.out.println("Error al autentificar en la tabla user: " + e.getMessage());
         }
         return false;
     }
 
     public boolean signOut() throws SQLException {
-        Connection conn = getConexion();
+        Connection conn = getSqlConnection();
         try{
-            ps = conn.prepareStatement("SELECT id_user, name, email, password, login FROM users WHERE email=?");
+            PreparedStatement ps = conn.prepareStatement("SELECT user_id, name, email, password, login FROM users WHERE email=?");
             ps.setString(1, emailUser);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             System.out.println("1");
             if (rs.next()) {
                 System.out.println(rs.getString("email"));
@@ -205,7 +181,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
                 return true;
             }
         } catch (SQLException e) {
-            System.out.println("Error al autentificar en la tabla USERS: " + e.getMessage());
+            System.out.println("Error al autentificar en la tabla USER: " + e.getMessage());
         }
         return false;
     }
