@@ -7,29 +7,27 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class DateTasks {
-    
-    // mapa clave(fecha), valor(tarea)
+public class dateTasks {
     
     @JsonProperty("tasks")
-    private List<Task> tasks;
+    private List<task> tasks;
     
     @JsonProperty("date")
     // @JsonFormat(pattern = "yyyy-MM-dd")
     private String date;
     
-    public DateTasks () {}
+    public dateTasks () {}
     
-    public DateTasks (String date) {
+    public dateTasks (String date) {
         this.date = date;
         this.tasks = new ArrayList<>();
     }
     
-    public void addTask (Task t) {
+    public void addTask (task t) {
         tasks.add(t);
     }
 
-    public List<Task> getTask () {
+    public List<task> getTask () {
         return tasks;
     }
     
@@ -37,14 +35,14 @@ public class DateTasks {
         return date;
     }
     
-    public List<Task> getAllTasks () {
+    public List<task> getAllTasks () {
         return tasks;
     }
     
     @Override
     public String toString(){
         String c = "";
-        for (Task i : this.getAllTasks()) {
+        for (task i : this.getAllTasks()) {
             c += i.getName() + ", ";
         }
         c = c.substring(0, c.length() - 2);

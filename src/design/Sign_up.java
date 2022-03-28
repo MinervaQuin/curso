@@ -15,9 +15,6 @@ import org.json.simple.JSONObject;
  * @author Entrar
  */
 public class Sign_up extends javax.swing.JFrame {
-    private final String url_alternative = "jdbc:mysql://i54jns50s3z6gbjt.chr7pe7iynqr.eu-west-1.rds.amazonaws.com/iy5jkxqnaep9jd04";
-    private final String user_alternative = "e3uv1gsfsu6r8v6j";
-    private final String pswd_alternative = "ud6g593tlbsh3knw"; 
     /**
      * Creates new form Sign_up
      */
@@ -224,11 +221,11 @@ public class Sign_up extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:
-        JSONObject calendars = new JSONObject();
-        HerokuUsersSqlConnection bd= HerokuUsersSqlConnection.getInstance(url_alternative + "?useSSL=false", user_alternative, pswd_alternative);
+       
+        HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();     
         String pwd = new String(password.getPassword());
-        bd.insertUser(nameUser.getText(), pwd, email.getText(), calendars, true);
-        bd.selectAllUsers();
+        conex.insertUser(nameUser.getText(), pwd, email.getText(), true);
+        conex.selectAllUsers();
     }                                        
 
     /**

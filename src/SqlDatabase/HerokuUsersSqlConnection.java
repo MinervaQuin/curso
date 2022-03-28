@@ -33,16 +33,15 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     }
 
     public void selectAllUsers() {
-        String sql = "SELECT * FROM USERS";
+        String sql = "SELECT * FROM users";
         try (Connection conn = this.getConexion();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)){
             while (rs.next()) {
-            System.out.println(rs.getInt("id") + "\t" +
+            System.out.println(rs.getInt("id_user") + "\t" +
                         rs.getString("name") + "\t" +
                         rs.getString("password") + "\t" +
                         rs.getString("email") + "\t" +
-                        rs.getString("calendar") + "\t" +
                         rs.getString("login") 
             );
             }
@@ -55,18 +54,17 @@ public class HerokuUsersSqlConnection extends SqlConnection{
         Connection conn = getConexion();
         
         try{
-            ps = conn.prepareStatement("SELECT * FROM USERS WHERE id=" + Integer.toString(id));
+            ps = conn.prepareStatement("SELECT * FROM users WHERE id_user=" + Integer.toString(id));
             ps.setInt(1, id);
             
             rs = ps.executeQuery();
             
             if (rs.next()) {
                 
-                System.out.println(rs.getInt("id") + "\t" +
+                System.out.println(rs.getInt("id_user") + "\t" +
                 rs.getString("name") + "\t" +
                 rs.getString("password") + "\t" +
                 rs.getString("email") + "\t" +
-                rs.getString("calendar") + "\t" +
                 rs.getString("login") 
             );
             } else {
@@ -85,7 +83,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
         Connection conn = getConexion();
         
         try{
-            ps = conn.prepareStatement("DELETE FROM USERS WHERE id=?");
+            ps = conn.prepareStatement("DELETE FROM users WHERE id_user=?");
             ps.setInt(1, id);
             
             int res = ps.executeUpdate();
@@ -104,7 +102,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
                 System.out.println("Error al eliminar por id en la tabla USERS: " + e.getMessage());
             }
     }
-     
+     /*
     public JSONObject getCalendarById(int id) throws ParseException {
         String sql = "SELECT calendar FROM USERS WHERE id=" + Integer.toString(id);
         JSONObject jsonObjectCalendar = null;
@@ -123,16 +121,17 @@ public class HerokuUsersSqlConnection extends SqlConnection{
         
         return jsonObjectCalendar;
     }
+
+*/
     
-    public void insertUser(String name, String pswd, String email, JSONObject json, boolean login) {
+    public void insertUser(String name, String pswd, String email, boolean login) {
         Connection conn = getConexion();        
         try{
-            ps = conn.prepareStatement("INSERT INTO USERS(name, password, email, calendar, login) VALUES(?, ?, ?, ?, ?)");
+            ps = conn.prepareStatement("INSERT INTO users(name, password, email, login) VALUES(?, ?, ?, ?)");
             ps.setString(1, name);
             ps.setString(2, pswd);
             ps.setString(3, email);
-            ps.setString(4, json.toJSONString());
-            ps.setBoolean(5, login);
+            ps.setBoolean(4, login);
             // ps.execute();  
             int res = ps.executeUpdate();
             
@@ -147,8 +146,8 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             conn.close();
             
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al insertar en la tabla USERS: " + e.getMessage());
-            System.out.println("Error al insertar en la tabla USERS: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al insertar en la tabla users: " + e.getMessage());
+            System.out.println("Error al insertar en la tabla users: " + e.getMessage());
         }
     }
     
@@ -156,12 +155,12 @@ public class HerokuUsersSqlConnection extends SqlConnection{
         
         Connection conn = getConexion();
         try{
-            ps = conn.prepareStatement("SELECT id, name, email, password, login FROM USERS WHERE email=?");
+            ps = conn.prepareStatement("SELECT id_user, name, email, password, login FROM users WHERE email=?");
             ps.setString(1, user.getEmail());
             rs = ps.executeQuery();
             if (rs.next()) {
                 if(user.getPwd().equals(rs.getString(4))){                     
-                    ps = conn.prepareStatement("UPDATE USERS SET login=? WHERE email=?");
+                    ps = conn.prepareStatement("UPDATE users SET login=? WHERE email=?");
                     ps.setBoolean(1, true);
                     ps.setString(2, user.getEmail());
                     ps.execute();
@@ -179,7 +178,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
                 }
             }
         }catch (SQLException e) {
-            System.out.println("Error al autentificar en la tabla USERS: " + e.getMessage());
+            System.out.println("Error al autentificar en la tabla users: " + e.getMessage());
         }
         return false;
     }
@@ -187,7 +186,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     public boolean signOut() throws SQLException {
         Connection conn = getConexion();
         try{
-            ps = conn.prepareStatement("SELECT id, name, email, password, login FROM USERS WHERE email=?");
+            ps = conn.prepareStatement("SELECT id_user, name, email, password, login FROM users WHERE email=?");
             ps.setString(1, emailUser);
             rs = ps.executeQuery();
             System.out.println("1");
@@ -197,7 +196,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
                 System.out.println("2");
                      
                 System.out.println("3");                    
-                ps = conn.prepareStatement("UPDATE USERS SET login=? WHERE email=?");
+                ps = conn.prepareStatement("UPDATE users SET login=? WHERE email=?");
                 System.out.println("4");
                 ps.setBoolean(1, false);
                 ps.setString(2, emailUser);
