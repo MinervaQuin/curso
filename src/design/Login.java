@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import model.user;
 
 /**
  *
@@ -62,6 +63,14 @@ public class Login extends javax.swing.JFrame {
         jLabel4.setText("Email");
 
         email.setToolTipText("");
+        email.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                emailFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                emailFocusLost(evt);
+            }
+        });
         email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailActionPerformed(evt);
@@ -70,6 +79,20 @@ public class Login extends javax.swing.JFrame {
 
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
         jLabel5.setText("Password");
+
+        contraseña.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                contraseñaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                contraseñaFocusLost(evt);
+            }
+        });
+        contraseña.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contraseñaActionPerformed(evt);
+            }
+        });
 
         Login.setText("Login now");
         Login.addActionListener(new java.awt.event.ActionListener() {
@@ -138,7 +161,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {                                      
-        // TODO add your handling code here:
+
     }                                     
 
     private void SignUpActionPerformed(java.awt.event.ActionEvent evt) {                                       
@@ -150,6 +173,8 @@ public class Login extends javax.swing.JFrame {
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {                                      
         String email_text= email.getText();
         String contraseña_text = String.valueOf(contraseña.getPassword());
+        user user = new user();
+        
         /*Pattern pat_email = Pattern.compile("[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,4}");
         Matcher mat_email = pat_email.matcher(email_text);
         Pattern pat_password = Pattern.compile("^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,15}$");
@@ -175,9 +200,12 @@ public class Login extends javax.swing.JFrame {
         }else{*/
             System.out.println("Email = " + email_text);
             System.out.println("Contraseña = " + contraseña_text);
-            HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance("jdbc:mysql://i54jns50s3z6gbjt.chr7pe7iynqr.eu-west-1.rds.amazonaws.com/iy5jkxqnaep9jd04" + "?useSSL=false", "e3uv1gsfsu6r8v6j", "ud6g593tlbsh3knw");
+            HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();
             try {
-                if(conex.login(email_text,contraseña_text)){
+                user.setEmail(email_text);
+                user.setPwd(contraseña_text);
+                user.toString();
+                if(conex.login(user)){
                     JOptionPane.showMessageDialog(null, "Login correcto");
                     System.out.println("Login correcto");
                     MainPage mp = new MainPage();
@@ -185,7 +213,7 @@ public class Login extends javax.swing.JFrame {
                     this.setVisible(false);
                 }else {
                     JOptionPane.showMessageDialog(null, "Login incorrecto");
-                    System.out.println("Login incorrecto");
+                    System.out.println("Login incorrecto");                    
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
@@ -193,6 +221,35 @@ public class Login extends javax.swing.JFrame {
        //  }
     }                                     
 
+    private void contraseñaActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        
+    }                                          
+
+    private void emailFocusGained(java.awt.event.FocusEvent evt) {                                  
+        /* if(email.getText().equals("Write your email")){
+            email.setText("");
+        }*/
+    }                                 
+
+    private void contraseñaFocusGained(java.awt.event.FocusEvent evt) {                                       
+        /* if(contraseña.getPassword().equals("jPasswordField1")){
+            contraseña.setText("");
+        } */
+    }                                      
+
+    private void emailFocusLost(java.awt.event.FocusEvent evt) {                                
+        /* if(email.getText().equals("")){
+            email.setText("Write your email");
+        } */
+    }                               
+
+    private void contraseñaFocusLost(java.awt.event.FocusEvent evt) {                                     
+        /* if(contraseña.getPassword().equals("")){
+            contraseña.setText("jPasswordField1");
+        } */
+    }                                    
+
+    
     /**
      * @param args the command line arguments
      */
