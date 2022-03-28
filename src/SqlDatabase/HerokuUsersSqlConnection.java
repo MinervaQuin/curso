@@ -7,7 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.User;
+import javax.swing.JOptionPane;
+import model.user;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -18,20 +19,22 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     private static HerokuUsersSqlConnection instance;
     private String emailUser;
     
+    PreparedStatement ps;
+    ResultSet rs;
+    
     private HerokuUsersSqlConnection(){}
     
-    public static synchronized HerokuUsersSqlConnection getInstance(String url, String user, String pswd){
+    public static synchronized HerokuUsersSqlConnection getInstance(){
         if(instance == null){
             instance = new HerokuUsersSqlConnection();
-            instance.SqlConnection(url, user, pswd);
+            instance.getConexion();
         }
         return instance;
     }
 
-
     public void selectAllUsers() {
         String sql = "SELECT * FROM USERS";
-        try (Connection conn = this.connect();
+        try (Connection conn = this.getConexion();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)){
             while (rs.next()) {
@@ -49,21 +52,28 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     }
 
     public void selectUserById(int id) {
+        Connection conn = getConexion();
         
-        String sql = "SELECT * FROM USERS WHERE id=" + Integer.toString(id);
-
-        try (Connection conn = this.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql)){
-            while (rs.next()) {
-            System.out.println(rs.getInt("id") + "\t" +
-                        rs.getString("name") + "\t" +
-                        rs.getString("password") + "\t" +
-                        rs.getString("email") + "\t" +
-                        rs.getString("calendar") + "\t" +
-                        rs.getString("login") 
+        try{
+            ps = conn.prepareStatement("SELECT * FROM USERS WHERE id=" + Integer.toString(id));
+            ps.setInt(1, id);
+            
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                
+                System.out.println(rs.getInt("id") + "\t" +
+                rs.getString("name") + "\t" +
+                rs.getString("password") + "\t" +
+                rs.getString("email") + "\t" +
+                rs.getString("calendar") + "\t" +
+                rs.getString("login") 
             );
+            } else {
+                JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese id");
+                System.out.println("No existe ningún usuario con ese id");
             }
+            
         } catch (SQLException e) {
             System.out.println("Error al seleccionar por id  en la tabla USERS: " + e.getMessage());
         }
@@ -71,12 +81,26 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     }            
  
     public void deleteUserById(int id) {
-        String sql = "DELETE FROM USERS WHERE id=?";
-        try (Connection conn = this.connect();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
+        
+        Connection conn = getConexion();
+        
+        try{
+            ps = conn.prepareStatement("DELETE FROM USERS WHERE id=?");
+            ps.setInt(1, id);
+            
+            int res = ps.executeUpdate();
+            
+            if(res > 0){
+                JOptionPane.showMessageDialog(null, "Usuario eliminado correctamente");
+                System.out.println("Usuario eliminado correctamente");
+            }else{
+                JOptionPane.showMessageDialog(null, "Usuario eliminado incorrectamente");
+                System.out.println("Usuario eliminado incorrectamente");
+            }
+            
+            conn.close();
+            
+        }catch (SQLException e) {
                 System.out.println("Error al eliminar por id en la tabla USERS: " + e.getMessage());
             }
     }
@@ -85,7 +109,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
         String sql = "SELECT calendar FROM USERS WHERE id=" + Integer.toString(id);
         JSONObject jsonObjectCalendar = null;
         String stringCalendar = null;
-        try (Connection conn = this.connect();
+        try (Connection conn = this.getConexion();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)){
 
@@ -101,72 +125,84 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     }
     
     public void insertUser(String name, String pswd, String email, JSONObject json, boolean login) {
-        String sql = "INSERT INTO USERS(name, password, email, calendar, login) VALUES(?, ?, ?, ?, ?)";
-        try (Connection conn = this.connect();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, name);
-            pstmt.setString(2, pswd);
-            pstmt.setString(3, email);
-            pstmt.setString(4, json.toJSONString());
-            pstmt.setBoolean(5, login);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-                System.out.println("Error al insertar en la tabla USERS: " + e.getMessage());
+        Connection conn = getConexion();        
+        try{
+            ps = conn.prepareStatement("INSERT INTO USERS(name, password, email, calendar, login) VALUES(?, ?, ?, ?, ?)");
+            ps.setString(1, name);
+            ps.setString(2, pswd);
+            ps.setString(3, email);
+            ps.setString(4, json.toJSONString());
+            ps.setBoolean(5, login);
+            // ps.execute();  
+            int res = ps.executeUpdate();
+            
+            if(res > 0){
+                JOptionPane.showMessageDialog(null, "Usuario insertado correctamente");
+                System.out.println("Usuario insertado correctamente");
+            }else{
+                JOptionPane.showMessageDialog(null, "Usuario insertado incorrectamente");
+                System.out.println("Usuario insertado incorrectamente");
             }
+            
+            conn.close();
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al insertar en la tabla USERS: " + e.getMessage());
+            System.out.println("Error al insertar en la tabla USERS: " + e.getMessage());
+        }
     }
     
-    public boolean login(String email, String pswd) throws SQLException {
+    public boolean login(user user) throws SQLException {
         
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Connection conn = this.connect();
-        
-        String sql = "SELECT email, password, login FROM USERS WHERE email=?";
-        
-        try {
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, email);
+        Connection conn = getConexion();
+        try{
+            ps = conn.prepareStatement("SELECT id, name, email, password, login FROM USERS WHERE email=?");
+            ps.setString(1, user.getEmail());
             rs = ps.executeQuery();
-            
             if (rs.next()) {
-                System.out.println(rs.getString("email"));
-                System.out.println(rs.getString("password"));
-                if(rs.getString(2).equals(pswd)){ 
-                    
-                    String sqlUpdate = "UPDATE USERS SET login=? WHERE email=?";
-                    
-                    ps = conn.prepareStatement(sqlUpdate);
+                if(user.getPwd().equals(rs.getString(4))){                     
+                    ps = conn.prepareStatement("UPDATE USERS SET login=? WHERE email=?");
                     ps.setBoolean(1, true);
-                    ps.setString(2, email);
+                    ps.setString(2, user.getEmail());
                     ps.execute();
                     
-                    emailUser = email;
+                    user.setId(rs.getInt(1));
+                    user.setName(rs.getString(2));
+                    user.setEmail(rs.getString(3));
+                    user.setPwd(rs.getString(4));
+                    user.setLogin(rs.getBoolean(5));
+                    
+                    user.toString();
+                    
+                    emailUser = user.getEmail();
                     return true;
                 }
             }
-        } catch (SQLException e) {
+        }catch (SQLException e) {
             System.out.println("Error al autentificar en la tabla USERS: " + e.getMessage());
         }
         return false;
     }
 
     public boolean signOut() throws SQLException {
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Connection conn = this.connect();
-        
-        String sql = "SELECT login FROM USERS WHERE email=?";
-        try {
-            ps = conn.prepareStatement(sql);
+        Connection conn = getConexion();
+        try{
+            ps = conn.prepareStatement("SELECT id, name, email, password, login FROM USERS WHERE email=?");
             ps.setString(1, emailUser);
             rs = ps.executeQuery();
+            System.out.println("1");
             if (rs.next()) {
-                String sqlUpdate = "UPDATE USERS SET login=? WHERE email=?";
-                
-                ps = conn.prepareStatement(sqlUpdate);
+                System.out.println(rs.getString("email"));
+                System.out.println(rs.getString("password"));
+                System.out.println("2");
+                     
+                System.out.println("3");                    
+                ps = conn.prepareStatement("UPDATE USERS SET login=? WHERE email=?");
+                System.out.println("4");
                 ps.setBoolean(1, false);
                 ps.setString(2, emailUser);
                 ps.execute();
+                System.out.println("5");
                 return true;
             }
         } catch (SQLException e) {
