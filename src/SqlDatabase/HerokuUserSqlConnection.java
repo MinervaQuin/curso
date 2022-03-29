@@ -64,7 +64,7 @@ public class HerokuUserSqlConnection extends SqlConnection{
                 rs.getString("login") 
             );
             } else {
-                JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese id");
+                //JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese id");
                 System.out.println("No existe ningún usuario con ese id");
             }
             
@@ -85,10 +85,10 @@ public class HerokuUserSqlConnection extends SqlConnection{
             int res = ps.executeUpdate();
             
             if(res > 0){
-                JOptionPane.showMessageDialog(null, "Usuario eliminado correctamente");
+                //JOptionPane.showMessageDialog(null, "Usuario eliminado correctamente");
                 System.out.println("Usuario eliminado correctamente");
             }else{
-                JOptionPane.showMessageDialog(null, "Usuario eliminado incorrectamente");
+                //JOptionPane.showMessageDialog(null, "Usuario eliminado incorrectamente");
                 System.out.println("Usuario eliminado incorrectamente");
             }
             
@@ -112,17 +112,17 @@ public class HerokuUserSqlConnection extends SqlConnection{
             int res = ps.executeUpdate();
             
             if(res > 0){
-                JOptionPane.showMessageDialog(null, "Usuario insertado correctamente");
+                //JOptionPane.showMessageDialog(null, "Usuario insertado correctamente");
                 System.out.println("Usuario insertado correctamente");
             }else{
-                JOptionPane.showMessageDialog(null, "Usuario insertado incorrectamente");
+                //JOptionPane.showMessageDialog(null, "Usuario insertado incorrectamente");
                 System.out.println("Usuario insertado incorrectamente");
             }
             
             conn.close();
             
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al insertar en la tabla user: " + e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Error al insertar en la tabla user: " + e.getMessage());
             System.out.println("Error al insertar en la tabla users: " + e.getMessage());
         }
     }

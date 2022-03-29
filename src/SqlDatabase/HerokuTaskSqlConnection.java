@@ -47,17 +47,17 @@ public class HerokuTaskSqlConnection  extends SqlConnection {
             int res = ps.executeUpdate();
             
             if(res > 0){
-                JOptionPane.showMessageDialog(null, "Tarea insertado correctamente");
+                //JOptionPane.showMessageDialog(null, "Tarea insertado correctamente");
                 System.out.println("Tarea insertado correctamente");
             }else{
-                JOptionPane.showMessageDialog(null, "Tarea insertado incorrectamente");
+                //JOptionPane.showMessageDialog(null, "Tarea insertado incorrectamente");
                 System.out.println("Tarea insertado incorrectamente");
             }
             
             conn.close();
             
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al insertar en la tabla TASK: " + e.getMessage());
+            //JOptionPane.showMessageDialog(null, "Error al insertar en la tabla TASK: " + e.getMessage());
             System.out.println("Error al insertar en la tabla TASK: " + e.getMessage());
         }
     }
@@ -76,7 +76,7 @@ public class HerokuTaskSqlConnection  extends SqlConnection {
                 rs.getString("name") + "\t"
             );
             } else {
-                JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese id");
+                //JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese id");
                 System.out.println("No existe ningún usuario con ese id");
             }
             
@@ -97,10 +97,10 @@ public class HerokuTaskSqlConnection  extends SqlConnection {
             int res = ps.executeUpdate();
             
             if(res > 0){
-                JOptionPane.showMessageDialog(null, "Usuario eliminado correctamente");
+                //JOptionPane.showMessageDialog(null, "Usuario eliminado correctamente");
                 System.out.println("Tarea eliminado correctamente");
             }else{
-                JOptionPane.showMessageDialog(null, "Usuario eliminado incorrectamente");
+                //JOptionPane.showMessageDialog(null, "Usuario eliminado incorrectamente");
                 System.out.println("Tarea eliminado incorrectamente");
             }
 

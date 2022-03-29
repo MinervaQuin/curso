@@ -14,7 +14,7 @@ public class User {
         
     }
     
-    public User(int id, String name, String pwd, String email, boolean login) {
+    public User(Integer id, String name, String pwd, String email, boolean login) {
         this.id = id;
         this.name = name;
         this.pwd = pwd;
@@ -27,6 +27,17 @@ public class User {
         this.email = email;
         this.pwd = pwd;
     }       
+
+    public User (String name, String email, String pwd) {
+        this.name = name;
+        this.email = email;
+        this.pwd = pwd;
+    } 
+    
+    public User (String email, String pwd) {
+        this.email = email;
+        this.pwd = pwd;
+    }  
     
     public User getUser(){
         User user = new User();

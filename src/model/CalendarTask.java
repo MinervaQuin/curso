@@ -33,7 +33,7 @@ public class CalendarTask{
 
     
     // Método para modificar una tarea
-    public void setTask(String date, int position, Task newTask) {
+    public void setTask(String date, Integer position, Task newTask) {
         Iterator i = dateTasks.entrySet().iterator();
         List l = new ArrayList<>();
         while(i.hasNext()) {
@@ -92,6 +92,10 @@ public class CalendarTask{
         return mapped;
         
     }
+
+    public Integer getId(){
+        return id;
+    }
     
     public String getName(){
         return name;
@@ -101,8 +105,6 @@ public class CalendarTask{
     public String toString(){
         return name;
     }
-    
-
-           
+         
     
 }
