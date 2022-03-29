@@ -5,7 +5,10 @@
  */
 package design;
 
-import SqlDatabase.HerokuUserSqlConnection;
+import SqlDatabase.HerokuUsersSqlConnection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import org.json.simple.JSONObject;
@@ -20,6 +23,8 @@ public class Sign_up extends javax.swing.JFrame {
      */
     public Sign_up() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setExtendedState(MAXIMIZED_BOTH);
     }
 
     /**
@@ -99,7 +104,11 @@ public class Sign_up extends javax.swing.JFrame {
         jButton1.setText("Sign Up ↳ ");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                try {
+                    jButton1ActionPerformed(evt);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Sign_up.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
@@ -219,13 +228,27 @@ public class Sign_up extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                        
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-       
-        HerokuUserSqlConnection conex = HerokuUserSqlConnection.getInstance();     
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {                                         
+        // TODO add your handling code here:       
+        HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();     
         String pwd = new String(password.getPassword());
-        conex.insertUser(nameUser.getText(), pwd, email.getText(), true);
-        conex.selectAllUsers();
+        if(conex.selectUserByEmail(email.getText())){
+            conex.insertUser(nameUser.getText(), pwd, email.getText(), true);
+            MainPage mp = new MainPage();
+            mp.setVisible(true);
+            this.setVisible(false);
+        }
+        
+        // conex.selectAllUsers();
+        
+        
+        
+        /*
+        Comprobar si el usuario ya existe o no
+        */
+        
+        
+        
     }                                        
 
     /**
