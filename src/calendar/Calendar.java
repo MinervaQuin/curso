@@ -4,7 +4,7 @@ package calendar;
 import SqlDatabase.HerokuCalendarPermitSqlConnection;
 import SqlDatabase.HerokuCalendarSqlConnection;
 import SqlDatabase.HerokuTaskSqlConnection;
-import SqlDatabase.HerokuUserSqlConnection;
+import SqlDatabase.HerokuUsersSqlConnection;
 import design.Login;
 import model.Task;
 import model.User;
@@ -17,7 +17,7 @@ public class Calendar {
         // lg.setVisible(true);
 
         
-        HerokuUserSqlConnection userConnection = HerokuUserSqlConnection.getInstance();
+        HerokuUsersSqlConnection userConnection = HerokuUsersSqlConnection.getInstance();
         HerokuTaskSqlConnection taskConnection = HerokuTaskSqlConnection.getInstance();
         HerokuCalendarSqlConnection calConnection = HerokuCalendarSqlConnection.getInstance();
         HerokuCalendarPermitSqlConnection calPermitConnection = HerokuCalendarPermitSqlConnection.getInstance();
