@@ -2,7 +2,7 @@ package model;
 
 import java.util.logging.Logger;
 
-public class User {
+public class user {
     
     private int id;
     private String name;
@@ -10,11 +10,11 @@ public class User {
     private String email;
     private boolean login;
     
-    public User(){
+    public user(){
         
     }
     
-    public User(Integer id, String name, String pwd, String email, boolean login) {
+    public user(int id, String name, String pwd, String email, boolean login) {
         this.id = id;
         this.name = name;
         this.pwd = pwd;
@@ -22,25 +22,14 @@ public class User {
         this.login = login;
     }
     
-    public User (Integer id, String email, String pwd) {
+    public user (Integer id, String email, String pwd) {
         this.id = id;
         this.email = email;
         this.pwd = pwd;
     }       
-
-    public User (String name, String email, String pwd) {
-        this.name = name;
-        this.email = email;
-        this.pwd = pwd;
-    } 
     
-    public User (String email, String pwd) {
-        this.email = email;
-        this.pwd = pwd;
-    }  
-    
-    public User getUser(){
-        User user = new User();
+    public user getUser(){
+        user user = new user();
         user.setEmail(email);
         user.setPwd(pwd);
         return user;

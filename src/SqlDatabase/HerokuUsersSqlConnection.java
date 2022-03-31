@@ -8,18 +8,17 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import model.User;
+import model.user;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 
 public class HerokuUsersSqlConnection extends SqlConnection{
         
     private static HerokuUsersSqlConnection instance;
     private String emailUser;
     
-    private User user;
+    private user user;
     
     PreparedStatement ps;
     ResultSet rs;
@@ -29,14 +28,14 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     public static synchronized HerokuUsersSqlConnection getInstance(){
         if(instance == null){
             instance = new HerokuUsersSqlConnection();
-            instance.getSqlConnection();
+            instance.getConexion();
         }
         return instance;
     }
 
     public void selectAllUsers() {
         String sql = "SELECT * FROM user";
-        try (Connection conn = this.getSqlConnection();
+        try (Connection conn = this.getConexion();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)){
             while (rs.next()) {
@@ -53,7 +52,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     }
 
     public void selectUserById(int id) {
-        Connection conn = getSqlConnection();
+        Connection conn = getConexion();
         
         try{
             ps = conn.prepareStatement("SELECT * FROM user WHERE id_user=" + Integer.toString(id));
@@ -70,7 +69,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
                 rs.getString("login") 
             );
             } else {
-                //JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese id");
+                JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese id");
                 System.out.println("No existe ningún usuario con ese id");
             }
             
@@ -80,7 +79,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     }    
     
     public boolean selectUserByEmail(String email) throws SQLException {
-        Connection conn = getSqlConnection();
+        Connection conn = getConexion();
         
         try{
             ps = conn.prepareStatement("SELECT * FROM user WHERE email=?");
@@ -106,7 +105,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
  
     public void deleteUserById(int id) {
         
-        Connection conn = getSqlConnection();
+        Connection conn = getConexion();
         
         try{
             ps = conn.prepareStatement("DELETE FROM user WHERE id_user=?");
@@ -115,10 +114,10 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             int res = ps.executeUpdate();
             
             if(res > 0){
-                //JOptionPane.showMessageDialog(null, "Usuario eliminado correctamente");
+                JOptionPane.showMessageDialog(null, "Usuario eliminado correctamente");
                 System.out.println("Usuario eliminado correctamente");
             }else{
-                //JOptionPane.showMessageDialog(null, "Usuario eliminado incorrectamente");
+                JOptionPane.showMessageDialog(null, "Usuario eliminado incorrectamente");
                 System.out.println("Usuario eliminado incorrectamente");
             }
             
@@ -128,9 +127,30 @@ public class HerokuUsersSqlConnection extends SqlConnection{
                 System.out.println("Error al eliminar por id en la tabla user: " + e.getMessage());
             }
     }
+     /*
+    public JSONObject getCalendarById(int id) throws ParseException {
+        String sql = "SELECT calendar FROM USERS WHERE id=" + Integer.toString(id);
+        JSONObject jsonObjectCalendar = null;
+        String stringCalendar = null;
+        try (Connection conn = this.getConexion();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)){
+
+            if(rs.next()){stringCalendar = rs.getString("calendar");}
+
+            jsonObjectCalendar = (JSONObject) new JSONParser().parse(stringCalendar);
+                        
+        } catch (SQLException e) {
+                System.out.println("Error al obtener calendario por id en la tabla USERS: " + e.getMessage());
+            }
+        
+        return jsonObjectCalendar;
+    }
+
+*/
     
     public void insertUser(String name, String pswd, String email, boolean login) {
-        Connection conn = getSqlConnection();        
+        Connection conn = getConexion();        
         try{
             ps = conn.prepareStatement("INSERT INTO user(name, password, email, login) VALUES(?, ?, ?, ?)");
             ps.setString(1, name);
@@ -145,26 +165,24 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             emailUser = email;
             
             if(res > 0){
-                //JOptionPane.showMessageDialog(null, "Usuario insertado correctamente");
+                JOptionPane.showMessageDialog(null, "Usuario insertado correctamente");
                 System.out.println("Usuario insertado correctamente");
             }else{
-                //JOptionPane.showMessageDialog(null, "Usuario insertado incorrectamente");
+                JOptionPane.showMessageDialog(null, "Usuario insertado incorrectamente");
                 System.out.println("Usuario insertado incorrectamente");
             }
             
             conn.close();
             
         } catch (SQLException e) {
-
-            //JOptionPane.showMessageDialog(null, "Error al insertar en la tabla user: " + e.getMessage());
-            System.out.println("Error al insertar en la tabla users: " + e.getMessage());
-
+            JOptionPane.showMessageDialog(null, "Error al insertar en la tabla user: " + e.getMessage());
+            System.out.println("Error al insertar en la tabla user: " + e.getMessage());
         }
     }
     
-    public boolean login(User user) throws SQLException {
+    public boolean login(user user) throws SQLException {
         
-        Connection conn = getSqlConnection();
+        Connection conn = getConexion();
         try{
             ps = conn.prepareStatement("SELECT user_id, name, email, password, login FROM user WHERE email=?");
             ps.setString(1, user.getEmail());
@@ -198,7 +216,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     }
 
     public boolean signOut() throws SQLException {
-        Connection conn = getSqlConnection();
+        Connection conn = getConexion();
         try{
             ps = conn.prepareStatement("SELECT user_id, name, email, password, login FROM user WHERE email=?");
             ps.setString(1, emailUser);
@@ -222,5 +240,29 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             System.out.println("Error al autentificar en la tabla USERS: " + e.getMessage());
         }
         return false;
+    }
+    
+    public void insertCalendar(String name) {
+        Connection conn = getConexion();        
+        try{
+            ps = conn.prepareStatement("INSERT INTO calendar(name) VALUES(?)");
+            ps.setString(1, name);
+            // ps.execute();  
+            int res = ps.executeUpdate();
+            /*
+            if(res > 0){
+                JOptionPane.showMessageDialog(null, "Calendario insertado correctamente");
+                System.out.println("Calendario insertado correctamente");
+            }else{
+                JOptionPane.showMessageDialog(null, "Usuario insertado incorrectamente");
+                System.out.println("Calendario insertado incorrectamente");
+            }*/
+            
+            conn.close();
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al insertar en la tabla calendar: " + e.getMessage());
+            System.out.println("Error al insertar en la tabla calendar: " + e.getMessage());
+        }
     }
 }

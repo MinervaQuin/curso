@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
-import model.User;
+import model.user;
 
 /**
  *
@@ -300,11 +300,18 @@ public class MainPage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                      
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        añadirCalendario();
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) { 
+        
+        InputCalendarName inputCalendarName = new InputCalendarName();
+        inputCalendarName.setVisible(true);
+        
+        
+        String calendarName = inputCalendarName.getCalendarName();
+        añadirCalendario(calendarName);
+      
     }                                        
 
-    private void añadirCalendario(){
+    private void añadirCalendario(String calendarName){
         JButton boton1 = new JButton();
         boton1.setSize(233, 169);
         jPanel4.add(boton1);
@@ -315,11 +322,15 @@ public class MainPage extends javax.swing.JFrame {
             posicionCalendariox+=247;
         }
         boton1.setLocation(posicionCalendariox,posicionCalendarioy);
-       
+        boton1.setText(calendarName);
         boton1.addActionListener((java.awt.event.ActionEvent e) -> {
             System.out.println("Hellow World!");
         });
+        
+        
     }
+    
+    
 
     
     
