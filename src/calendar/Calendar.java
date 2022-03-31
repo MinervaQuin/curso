@@ -53,21 +53,31 @@ public class Calendar {
         //taskConnection.selectTaskById(1);
         //calConnection.selectCalendarById(1);
         
-        //calPermitConnection.selectCalendarPermitByCalendarId(1);
-        
-        //calPermitConnection.selectAllCalendarsPermitsByIdUser(1);
-        
-        
-        // calPermitConnection.selectAllCalendarsPermitsByIdUser(10);
-        
+        System.out.println("Seleccionar todos permnisos de calendario:");        
         calPermitConnection.selectAllCalendarsPermits();
+        System.out.println("-------------------------------------------------");                
         
-        // calPermitConnection.selectTaskByCalendarId(1);
+        System.out.println("Seleccionar permnisos de calendario por id de calendario:");
+        calPermitConnection.selectCalendarPermitByCalendarId(1);       
+        System.out.println("-------------------------------------------------");                
+
+        
+        System.out.println("Seleccionar tareas de uno o varios calendarios por id de calendario:");
+        calPermitConnection.selectTaskByCalendarId(1);
+        System.out.println("-------------------------------------------------");                
         
         
+        System.out.println("Seleccionar calendario(s) donde encuentre la id de una tarea:");
+        calPermitConnection.selectCalendarByTaskId(2);
+        System.out.println("-------------------------------------------------");                
+    
+        System.out.println("Seleccionar todos los permisos de los calendarios por id de usuario:");
+        calPermitConnection.selectAllCalendarsPermitsByIdUser(10);
+        System.out.println("-------------------------------------------------");                
+        
+        System.out.println("Seleccionar permisos usuarios por id de calendario:");
         calPermitConnection.selectUsersPermitsByCalendarId(1);
+        System.out.println("-------------------------------------------------");                
         
     }
-    
-
 }

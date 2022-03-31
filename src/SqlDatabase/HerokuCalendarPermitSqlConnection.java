@@ -116,15 +116,38 @@ public class HerokuCalendarPermitSqlConnection extends SqlConnection {
                         "id de tarea: " +
                         rs.getString("task_id") + "\t"
             );
-            }
-            
-            
+            }   
         } catch (SQLException e) {
             System.out.println("Error al seleccionar tarea(s) por id del calendario en la tabla CALENDAR_PERMIT: " + e.getMessage());
         }
 
     } 
 
+    
+    public void selectCalendarByTaskId(int id) {
+        Connection conn = getSqlConnection();
+        
+        try{
+            PreparedStatement ps = conn.prepareStatement("SELECT DISTINCT calendar_permit.calendar_id FROM calendar_permit inner JOIN calendar\n" +
+"            ON calendar_permit.task_id = calendar.calendar_id \n" +
+"            where calendar.calendar_id =  " + Integer.toString(id));
+            
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                
+                System.out.println(
+                        "Id de tarea: " +
+                        Integer.toString(id) + "\t" +
+                        "id de calendario: " +
+                        rs.getString("calendar_id") + "\t"
+            );
+            }   
+        } catch (SQLException e) {
+            System.out.println("Error al seleccionar calendario(s) por id de la tarea en la tabla CALENDAR_PERMIT: " + e.getMessage());
+        }
+
+    } 
         
     public void selectUsersPermitsByCalendarId(int id) {
         Connection conn = getSqlConnection();
