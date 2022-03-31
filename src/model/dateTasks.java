@@ -9,7 +9,7 @@ import java.util.List;
 public class dateTasks {
     
     @JsonProperty("tasks")
-    private List<task> tasks;
+    private List<Task> tasks;
     
     @JsonProperty("date")
     // @JsonFormat(pattern = "yyyy-MM-dd")
@@ -22,11 +22,11 @@ public class dateTasks {
         this.tasks = new ArrayList<>();
     }
     
-    public void addTask (task t) {
+    public void addTask (Task t) {
         tasks.add(t);
     }
 
-    public List<task> getTask () {
+    public List<Task> getTask () {
         return tasks;
     }
     
@@ -34,14 +34,14 @@ public class dateTasks {
         return date;
     }
     
-    public List<task> getAllTasks () {
+    public List<Task> getAllTasks () {
         return tasks;
     }
     
     @Override
     public String toString(){
         String c = "";
-        for (task i : this.getAllTasks()) {
+        for (Task i : this.getAllTasks()) {
             c += i.getName() + ", ";
         }
         c = c.substring(0, c.length() - 2);

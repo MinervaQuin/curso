@@ -17,10 +17,10 @@ public class calendar {
     private String prop;
     
     @JsonProperty("editores")
-    private final List<user>  editores = new ArrayList<>();
+    private final List<User>  editores = new ArrayList<>();
     
     @JsonProperty("lectores")
-    private final List<user> lectores = new ArrayList<>();
+    private final List<User> lectores = new ArrayList<>();
     
     public calendar (){}
     
@@ -43,7 +43,7 @@ public class calendar {
     }
     
     public void setTask(String date, String name) {
-        task t = new task(name);
+        Task t = new Task(name);
         dateTasks dateTask = new dateTasks(date);
         dateTask.addTask(t);
         this.dateTasks.add(dateTask);

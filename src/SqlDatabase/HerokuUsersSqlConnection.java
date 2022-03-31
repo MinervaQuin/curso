@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import model.user;
+import model.User;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -18,7 +18,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     private static HerokuUsersSqlConnection instance;
     private String emailUser;
     
-    private user user;
+    private User user;
     
     PreparedStatement ps;
     ResultSet rs;
@@ -28,14 +28,14 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     public static synchronized HerokuUsersSqlConnection getInstance(){
         if(instance == null){
             instance = new HerokuUsersSqlConnection();
-            instance.getConexion();
+            instance.getSqlConnection();
         }
         return instance;
     }
 
     public void selectAllUsers() {
         String sql = "SELECT * FROM user";
-        try (Connection conn = this.getConexion();
+        try (Connection conn = this.getSqlConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)){
             while (rs.next()) {
@@ -52,7 +52,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     }
 
     public void selectUserById(int id) {
-        Connection conn = getConexion();
+        Connection conn = getSqlConnection();
         
         try{
             ps = conn.prepareStatement("SELECT * FROM user WHERE id_user=" + Integer.toString(id));
@@ -79,7 +79,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     }    
     
     public boolean selectUserByEmail(String email) throws SQLException {
-        Connection conn = getConexion();
+        Connection conn = getSqlConnection();
         
         try{
             ps = conn.prepareStatement("SELECT * FROM user WHERE email=?");
@@ -105,7 +105,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
  
     public void deleteUserById(int id) {
         
-        Connection conn = getConexion();
+        Connection conn = getSqlConnection();
         
         try{
             ps = conn.prepareStatement("DELETE FROM user WHERE id_user=?");
@@ -150,7 +150,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
 */
     
     public void insertUser(String name, String pswd, String email, boolean login) {
-        Connection conn = getConexion();        
+        Connection conn = getSqlConnection();        
         try{
             ps = conn.prepareStatement("INSERT INTO user(name, password, email, login) VALUES(?, ?, ?, ?)");
             ps.setString(1, name);
@@ -180,9 +180,9 @@ public class HerokuUsersSqlConnection extends SqlConnection{
         }
     }
     
-    public boolean login(user user) throws SQLException {
+    public boolean login(User user) throws SQLException {
         
-        Connection conn = getConexion();
+        Connection conn = getSqlConnection();
         try{
             ps = conn.prepareStatement("SELECT user_id, name, email, password, login FROM user WHERE email=?");
             ps.setString(1, user.getEmail());
@@ -216,7 +216,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     }
 
     public boolean signOut() throws SQLException {
-        Connection conn = getConexion();
+        Connection conn = getSqlConnection();
         try{
             ps = conn.prepareStatement("SELECT user_id, name, email, password, login FROM user WHERE email=?");
             ps.setString(1, emailUser);
@@ -243,7 +243,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
     }
     
     public void insertCalendar(String name) {
-        Connection conn = getConexion();        
+        Connection conn = getSqlConnection();        
         try{
             ps = conn.prepareStatement("INSERT INTO calendar(name) VALUES(?)");
             ps.setString(1, name);
