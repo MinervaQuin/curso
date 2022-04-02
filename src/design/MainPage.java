@@ -16,8 +16,11 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -31,7 +34,7 @@ import model.User;
 public class MainPage extends javax.swing.JFrame {
 
     int posicionCalendariox = 6;
-    int posicionCalendarioy = 6;
+    int posicionCalendarioy = 39;
     
     /**
      * Creates new form MainPage
@@ -229,7 +232,7 @@ public class MainPage extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(36, 36, 36)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -271,6 +274,7 @@ public class MainPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void initCalendars(HerokuCalendarPermitSqlConnection conex_cal_per, int user_id){
          ArrayList<Integer> calendars=conex_cal_per.selectAllCalendarsIdByIdUser(user_id);
          HerokuCalendarSqlConnection conex_cal = HerokuCalendarSqlConnection.getInstance();
@@ -284,13 +288,8 @@ public class MainPage extends javax.swing.JFrame {
          }
          
     }
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        // TODO add your handling code here:
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {
     }                                           
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
-    }                                        
 
     private void singoutActionPerformed(java.awt.event.ActionEvent evt) {                                        
         HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();
@@ -327,42 +326,83 @@ public class MainPage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                      
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) { 
-        
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                             
         InputCalendarName inputCalendarName = new InputCalendarName();
         inputCalendarName.setVisible(true);
         
         
         String calendarName = inputCalendarName.getCalendarName();
-        añadirCalendario(calendarName);
+        if(!calendarName.equals("")){
+            añadirCalendario(calendarName);
+        }
+        
       
     }                                        
 
     private void añadirCalendario(String calendarName){
         JButton boton1 = new JButton();
         boton1.setSize(233, 169);
+        JLabel titulo = new JLabel();
+        titulo.setSize(79, 25);
+        titulo.setText(calendarName);
+        titulo.setBorder(null);
+        JButton eliminar = new JButton();
+        eliminar.setIcon(new ImageIcon(getClass().getResource("/design/imagenes/basura.png"))); 
+        eliminar.setSize(79, 25);
+        eliminar.setBorder(null);
+        eliminar.setBorderPainted(false);
+        eliminar.setContentAreaFilled(false);
         jPanel4.add(boton1);
+        jPanel4.add(titulo);
+        jPanel4.add(eliminar);
         if(posicionCalendariox > 1235){
             posicionCalendariox=6;
-            posicionCalendarioy+=171;
+            posicionCalendarioy+=210;
         }else{
             posicionCalendariox+=247;
         }
         boton1.setLocation(posicionCalendariox,posicionCalendarioy);
-        boton1.setText(calendarName);
+        titulo.setLocation(posicionCalendariox,posicionCalendarioy-39);
+        eliminar.setLocation(posicionCalendariox+160,posicionCalendarioy-39);
         boton1.addActionListener((java.awt.event.ActionEvent e) -> {
-            System.out.println("Hellow World!");
+            System.out.println("Se ha abierto el calendario " + calendarName);
+            calendarView cv = new calendarView();
+            cv.setVisible(true);
         });
         
-        
-    }
-    
-    
+        eliminar.addActionListener((java.awt.event.ActionEvent e) -> {
+            if(posicionCalendariox == 6 && posicionCalendarioy == 210){
+                System.out.println("Caso A");
+                posicionCalendariox -= 247;
+            } else if(posicionCalendariox != 6){
+                System.out.println("Caso B");
+                posicionCalendariox -= 247;
+            } else {
+                System.out.println("Caso C");
+                posicionCalendariox = 1241;
+                posicionCalendarioy -= 210;
+            }
 
-    
-    
-   
-    
+            boton1.setVisible(false);
+            titulo.setVisible(false);
+            eliminar.setVisible(false);
+        });
+        
+        System.out.println("---------------------------------------------------");
+        
+        System.out.println("Posicion x = " + jButton2.getLocation().getX());
+        System.out.println("Posicion y = " + jButton2.getLocation().getY());
+        
+        System.out.println("Posicion nuevo x = " + boton1.getLocation().getX());
+        System.out.println("Posicion nuevo y = " + boton1.getLocation().getY());
+        
+        System.out.println("Posicion texto nuevo x = " + titulo.getLocation().getX());
+        System.out.println("Posicion texto nuevo = " + titulo.getLocation().getY());
+        
+        System.out.println("Posicion icono nuevo x = " + eliminar.getLocation().getX());
+        System.out.println("Posicion icono nuevo y = " + eliminar.getLocation().getY());
+    }
+        
     /**
      * @param args the command line arguments
      */
@@ -419,3 +459,4 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JButton users1;
     // End of variables declaration//GEN-END:variables
 }
+
