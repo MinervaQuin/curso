@@ -98,12 +98,12 @@ public class InputCalendarName extends javax.swing.JDialog {
         // TODO add your handling code here:
         
         String CalendarName = calendarName.getText();
-        calendar calendar = new calendar(CalendarName);
+        //calendar calendar = new calendar(CalendarName);
         
         HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();
         HerokuCalendarPermitSqlConnection conex_cal_per = HerokuCalendarPermitSqlConnection.getInstance();
         HerokuCalendarSqlConnection conex_cal = HerokuCalendarSqlConnection.getInstance();
-        conex.insertCalendar(calendar.getName());
+        conex.insertCalendar(CalendarName);
         /*metodo obtener id del calendario recientemente creado*/
         /*prueba con un usuario creado en la base de datos.
         IMPORTANTE: implantar uso de sesiones a traves de cada ventana que se cree*/

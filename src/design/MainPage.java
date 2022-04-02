@@ -44,16 +44,7 @@ public class MainPage extends javax.swing.JFrame {
         Color color =new Color(86,47,65);
         this.setLocationRelativeTo(null);
         this.setExtendedState(MAXIMIZED_BOTH);
-        HerokuUsersSqlConnection conex_us = HerokuUsersSqlConnection.getInstance();
-        HerokuCalendarPermitSqlConnection conex_cal_per = HerokuCalendarPermitSqlConnection.getInstance();
-        HerokuCalendarSqlConnection conex_cal = HerokuCalendarSqlConnection.getInstance();
-        HerokuTaskSqlConnection conex_task = HerokuTaskSqlConnection.getInstance();
-        int user_id=conex_us.getUserIdByEmail("user@gmail.com");
-        //conex_cal_per.selectAllCalendarsByIdUser(11);
-        conex_cal_per.selectAllCalendarsPermits();
-        //conex_task.selectAllTasks();
-        //conex_cal.selectAllCalendars();
-        initCalendars(conex_cal_per, user_id);
+        
     }
 
     /**
