@@ -29,7 +29,7 @@ public class HerokuTaskSqlConnection  extends SqlConnection {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)){
             while (rs.next()) {
-            System.out.println(rs.getInt("user_id") + "\t" +
+            System.out.println(rs.getInt("task_id") + "\t" +
                         rs.getString("name") + "\t"
             );
             }

@@ -39,7 +39,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)){
             while (rs.next()) {
-            System.out.println(rs.getInt("id_user") + "\t" +
+            System.out.println(rs.getInt("user_id") + "\t" +
                         rs.getString("name") + "\t" +
                         rs.getString("password") + "\t" +
                         rs.getString("email") + "\t" +
@@ -55,14 +55,14 @@ public class HerokuUsersSqlConnection extends SqlConnection{
         Connection conn = getSqlConnection();
         
         try{
-            ps = conn.prepareStatement("SELECT * FROM user WHERE id_user=" + Integer.toString(id));
+            ps = conn.prepareStatement("SELECT * FROM user WHERE user_id=" + Integer.toString(id));
             ps.setInt(1, id);
             
             rs = ps.executeQuery();
             
             if (rs.next()) {
                 
-                System.out.println(rs.getInt("id_user") + "\t" +
+                System.out.println(rs.getInt("user_id") + "\t" +
                 rs.getString("name") + "\t" +
                 rs.getString("password") + "\t" +
                 rs.getString("email") + "\t" +
@@ -78,6 +78,29 @@ public class HerokuUsersSqlConnection extends SqlConnection{
         }
     }    
     
+    public int getUserIdByEmail(String email) throws SQLException {
+        Connection conn = getSqlConnection();
+        
+        try{
+            ps = conn.prepareStatement("SELECT * FROM user WHERE email=?");
+            ps.setString(1, email);
+            
+            rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                System.out.println("Usuario:" + rs.getInt("user_id"));
+                return rs.getInt("user_id");
+            } else {
+                System.out.println("No existe ningún usuario con ese email");
+                return -1;
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Error al seleccionar por id  en la tabla user: " + e.getMessage());
+        }
+        return -1;
+    }   
+    /*este metodo en realidad no es un select, es una comprobación*/
     public boolean selectUserByEmail(String email) throws SQLException {
         Connection conn = getSqlConnection();
         
@@ -89,7 +112,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             
             if (rs.next()) {
                 JOptionPane.showMessageDialog(null, "Si existe ningún usuario con ese id");
-                System.out.println("Si existe ningún usuario con ese id");
+                System.out.println("Si existe usuario con ese id");
                 return false;
             } else {
                 JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese id");
@@ -101,14 +124,14 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             System.out.println("Error al seleccionar por id  en la tabla user: " + e.getMessage());
         }
         return false;
-    }   
- 
+    }
+    
     public void deleteUserById(int id) {
         
         Connection conn = getSqlConnection();
         
         try{
-            ps = conn.prepareStatement("DELETE FROM user WHERE id_user=?");
+            ps = conn.prepareStatement("DELETE FROM user WHERE user_id=?");
             ps.setInt(1, id);
             
             int res = ps.executeUpdate();
