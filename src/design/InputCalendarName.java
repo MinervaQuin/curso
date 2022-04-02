@@ -5,6 +5,8 @@
  */
 package design;
 
+import SqlDatabase.HerokuCalendarPermitSqlConnection;
+import SqlDatabase.HerokuCalendarSqlConnection;
 import SqlDatabase.HerokuUsersSqlConnection;
 import java.awt.Color;
 import java.sql.SQLException;
@@ -99,10 +101,15 @@ public class InputCalendarName extends javax.swing.JDialog {
         calendar calendar = new calendar(CalendarName);
         
         HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();
+        HerokuCalendarPermitSqlConnection conex_cal_per = HerokuCalendarPermitSqlConnection.getInstance();
+        HerokuCalendarSqlConnection conex_cal = HerokuCalendarSqlConnection.getInstance();
         conex.insertCalendar(calendar.getName());
-        
-        
-        
+        /*metodo obtener id del calendario recientemente creado*/
+        /*prueba con un usuario creado en la base de datos.
+        IMPORTANTE: implantar uso de sesiones a traves de cada ventana que se cree*/
+        int id_cal_recien_creado=conex_cal.selectUltimateCalendar();
+        conex_cal_per.insertCalendarPermit(11, id_cal_recien_creado, 1, "Admin");
+        System.out.println("ultimo caelndario"+id_cal_recien_creado);
         /*
         Controlar que no este vacio
         */
