@@ -78,6 +78,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
         }
     }    
     
+    /*metodo que retorna el id del usuario cuyo correo se pasa por parametro*/
     public int getUserIdByEmail(String email) throws SQLException {
         Connection conn = getSqlConnection();
         

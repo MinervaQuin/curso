@@ -108,7 +108,7 @@ public class InputCalendarName extends javax.swing.JDialog {
         /*prueba con un usuario creado en la base de datos.
         IMPORTANTE: implantar uso de sesiones a traves de cada ventana que se cree*/
         int id_cal_recien_creado=conex_cal.selectUltimateCalendar();
-        conex_cal_per.insertCalendarPermit(11, id_cal_recien_creado, 1, "Admin");
+        conex_cal_per.insertCalendarPermit(11, id_cal_recien_creado, null, "Admin");
         System.out.println("ultimo caelndario"+id_cal_recien_creado);
         /*
         Controlar que no este vacio
