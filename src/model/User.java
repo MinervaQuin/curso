@@ -25,7 +25,10 @@ public class User {
         this.email = email;
         this.pwd = pwd;
     }       
-    
+    public User (String email, String pwd) {
+        this.email = email;
+        this.pwd = pwd;
+    }
     public User getUser(){
         User user = new User();
         user.setEmail(email);

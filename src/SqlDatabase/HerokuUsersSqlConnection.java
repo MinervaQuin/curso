@@ -260,6 +260,34 @@ public class HerokuUsersSqlConnection extends SqlConnection{
         return false;
     }
     
+    
+    public boolean signOut2(User userSignedIn) throws SQLException {
+        Connection conn = getSqlConnection();
+        try{
+            ps = conn.prepareStatement("SELECT user_id, name, email, password, login FROM user WHERE email=?");
+            ps.setString(1, userSignedIn.getEmail());
+            rs = ps.executeQuery();
+            System.out.println("1");
+            if (rs.next()) {
+                System.out.println(rs.getString("email"));
+                System.out.println(rs.getString("password"));
+                System.out.println("2");
+                     
+                System.out.println("3");                    
+                ps = conn.prepareStatement("UPDATE user SET login=? WHERE email=?");
+                System.out.println("4");
+                ps.setBoolean(1, false);
+                ps.setString(2, userSignedIn.getEmail());
+                ps.execute();
+                System.out.println("5");
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al autentificar en la tabla USERS: " + e.getMessage());
+        }
+        return false;
+    }
+    /*este método no pertenece a esta clase no?
     public void insertCalendar(String name) {
         Connection conn = getSqlConnection();        
         try{
@@ -274,7 +302,7 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             }else{
                 JOptionPane.showMessageDialog(null, "Usuario insertado incorrectamente");
                 System.out.println("Calendario insertado incorrectamente");
-            }*/
+            }
             
             conn.close();
             
@@ -282,5 +310,5 @@ public class HerokuUsersSqlConnection extends SqlConnection{
             JOptionPane.showMessageDialog(null, "Error al insertar en la tabla calendar: " + e.getMessage());
             System.out.println("Error al insertar en la tabla calendar: " + e.getMessage());
         }
-    }
+    }*/
 }

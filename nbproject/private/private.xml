@@ -3,11 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Minerva/Calendar/src/SqlDatabase/HerokuUsersSqlConnection.java</file>
+            <file>file:/C:/Users/Minerva/Calendar/src/model/User.java</file>
+            <file>file:/C:/Users/Minerva/Calendar/src/calendar/Date.java</file>
+            <file>file:/C:/Users/Minerva/Calendar/src/SqlDatabase/SqlConnection.java</file>
             <file>file:/C:/Users/Minerva/Calendar/src/design/MainPage.java</file>
+            <file>file:/C:/Users/Minerva/Calendar/src/SqlDatabase/HerokuUsersSqlConnection.java</file>
+            <file>file:/C:/Users/Minerva/Calendar/src/calendar/Calendar.java</file>
+            <file>file:/C:/Users/Minerva/Calendar/src/design/Sign_up.java</file>
             <file>file:/C:/Users/Minerva/Calendar/src/SqlDatabase/HerokuCalendarSqlConnection.java</file>
-            <file>file:/C:/Users/Minerva/Calendar/src/design/InputCalendarName.java</file>
+            <file>file:/C:/Users/Minerva/Calendar/src/design/Login.java</file>
             <file>file:/C:/Users/Minerva/Calendar/src/SqlDatabase/HerokuCalendarPermitSqlConnection.java</file>
+            <file>file:/C:/Users/Minerva/Calendar/src/design/InputCalendarName.java</file>
         </group>
     </open-files>
 </project-private>

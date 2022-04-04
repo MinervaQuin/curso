@@ -11,6 +11,8 @@ import SqlDatabase.HerokuUsersSqlConnection;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -39,6 +41,8 @@ public class MainPage extends javax.swing.JFrame {
     /**
      * Creates new form MainPage
      */
+    
+    public User userSignedUp;
     public MainPage() throws SQLException {
         initComponents();
         Color color =new Color(86,47,65);
@@ -48,6 +52,9 @@ public class MainPage extends javax.swing.JFrame {
         HerokuCalendarPermitSqlConnection conex_cal_per = HerokuCalendarPermitSqlConnection.getInstance();
         int user_id=conex_us.getUserIdByEmail("user@gmail.com");
         initCalendars(conex_cal_per, user_id);
+        userSignedUp=new User();
+        userSignedUp.setEmail("user@gmail.com");
+        close();
     }
 
     /**
@@ -286,9 +293,9 @@ public class MainPage extends javax.swing.JFrame {
     }                                           
 
     private void singoutActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();
+        HerokuUsersSqlConnection conex_us = HerokuUsersSqlConnection.getInstance();
         try {
-            if(conex.signOut()){
+            if(conex_us.signOut2(this.userSignedUp)){
                 System.out.println("El signOut se ha realizado de forma correcta");
                 this.setVisible(false);
                 System.exit(0);
@@ -322,6 +329,7 @@ public class MainPage extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                             
         InputCalendarName inputCalendarName = new InputCalendarName();
+        inputCalendarName.userSignedIn=this.userSignedUp;
         inputCalendarName.setVisible(true);
         
         
@@ -331,8 +339,33 @@ public class MainPage extends javax.swing.JFrame {
         }
         
       
-    }                                        
-
+    }              
+    
+    public void close(){
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                confirmarSalida();
+            }
+        });
+    }
+    
+    public void confirmarSalida() {
+        HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();
+        try {
+            if(conex.signOut2(userSignedUp)){
+                System.out.println("El signOut se ha realizado de forma correcta");
+                this.setVisible(false);
+                System.exit(0);
+            }else {
+                JOptionPane.showMessageDialog(null, "El signOut ha fallado");
+                System.out.println("El signOut ha fallado");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private void añadirCalendario(String calendarName){
         JButton boton1 = new JButton();
         boton1.setSize(233, 169);

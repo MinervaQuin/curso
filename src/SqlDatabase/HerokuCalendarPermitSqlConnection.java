@@ -109,7 +109,7 @@ public class HerokuCalendarPermitSqlConnection extends SqlConnection {
                 System.out.println("Permiso de calendario al usuario insertado incorrectamente");
             }
             
-            conn.close();
+            //conn.close();
             
         } catch (SQLException e) {
             //JOptionPane.showMessageDialog(null, "Error al insertar en la tabla CALENDAR_PERMIT: " + e.getMessage());

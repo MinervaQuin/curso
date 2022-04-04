@@ -35,11 +35,12 @@ public class HerokuCalendarSqlConnection extends SqlConnection {
         }
     }
    
-    public void insertCalendar(String name) {
+    public void insertCalendar(String name, String new_id_email) {
         Connection conn = getSqlConnection();        
         try{
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO calendar(name) VALUES(?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO calendar(name, email_owner) VALUES(?,?)");
             ps.setString(1, name);
+            ps.setString(2, new_id_email);
             // ps.execute();  
             int res = ps.executeUpdate();
             
@@ -151,5 +152,31 @@ public class HerokuCalendarSqlConnection extends SqlConnection {
             System.out.println("Error al seleccionar por id  en la tabla CALENDAR: " + e.getMessage());
         }
         return calendar_name;
-    }     
+    }    
+     
+     /*metodo que devuelve un calendario creado por cierto usuario, conociendo el usuario y el nombre del calendario*/
+     public int getCalendar(String email_id) {
+        Connection conn = getSqlConnection();
+        int calendar_id=-1;
+        try{
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM calendar WHERE email_owner=?");
+            ps.setString(1, email_id);
+            ResultSet rs = ps.executeQuery();
+            
+            if (rs.next()) {
+                
+                System.out.println(rs.getInt("calendar_id") + "\t" +
+                                            rs.getString("name") + "\t"
+                                            );
+                calendar_id=rs.getInt("calendar_id");
+            } else {
+                //JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese id");
+                System.out.println("No existe ningún calendario con ese id");
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Error al seleccionar por id  en la tabla CALENDAR: " + e.getMessage());
+        }
+        return calendar_id;
+    }    
 }

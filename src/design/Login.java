@@ -23,6 +23,7 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    public User userSignedIn;
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -173,7 +174,7 @@ public class Login extends javax.swing.JFrame {
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
         String email_text= email.getText();
         String contraseña_text = String.valueOf(contraseña.getPassword());
-        User user = new User();
+        User userSignedIn = new User();
         
         /*Pattern pat_email = Pattern.compile("[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,4}");
         Matcher mat_email = pat_email.matcher(email_text);
@@ -200,15 +201,17 @@ public class Login extends javax.swing.JFrame {
         }else{*/
             System.out.println("Email = " + email_text);
             System.out.println("Contraseña = " + contraseña_text);
-            HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();
+            HerokuUsersSqlConnection conex_us = HerokuUsersSqlConnection.getInstance();
             try {
-                user.setEmail(email_text);
-                user.setPwd(contraseña_text);
-                user.toString();
-                if(conex.login(user)){
+                userSignedIn.setEmail(email_text);
+                userSignedIn.setPwd(contraseña_text);
+                userSignedIn.setId(conex_us.getUserIdByEmail(email_text));
+                userSignedIn.toString();
+                if(conex_us.login(userSignedIn)){
                     JOptionPane.showMessageDialog(null, "Login correcto");
                     System.out.println("Login correcto");
                     MainPage mp = new MainPage();
+                    mp.userSignedUp=userSignedIn;
                     mp.setVisible(true);
                     this.setVisible(false);
                 }else {

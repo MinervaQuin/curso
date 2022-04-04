@@ -4,6 +4,7 @@ import SqlDatabase.HerokuCalendarPermitSqlConnection;
 import SqlDatabase.HerokuCalendarSqlConnection;
 import SqlDatabase.HerokuUsersSqlConnection;
 import java.awt.Color;
+import model.User;
 
 /**
  *
@@ -14,6 +15,8 @@ public class InputCalendarName extends javax.swing.JDialog {
     /**
      * Creates new form InputCalendarName
      */
+    
+    public User userSignedIn;
     public InputCalendarName(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -90,16 +93,19 @@ public class InputCalendarName extends javax.swing.JDialog {
         String CalendarName = calendarName.getText();
         //calendar calendar = new calendar(CalendarName);
         
-        HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();
+        //HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();
         HerokuCalendarPermitSqlConnection conex_cal_per = HerokuCalendarPermitSqlConnection.getInstance();
         HerokuCalendarSqlConnection conex_cal = HerokuCalendarSqlConnection.getInstance();
-        conex.insertCalendar(CalendarName);
-        /*metodo obtener id del calendario recientemente creado*/
+        /*String new_email_id=CalendarName+userSignedIn.getEmail();
+        conex_cal.insertCalendar(CalendarName,new_email_id);
+        System.out.println("ha llegado");
+        metodo obtener id del calendario recientemente creado*/
         /*prueba con un usuario creado en la base de datos.
-        IMPORTANTE: implantar uso de sesiones a traves de cada ventana que se cree*/
-        int id_cal_recien_creado=conex_cal.selectUltimateCalendar();
-        conex_cal_per.insertCalendarPermit(11, id_cal_recien_creado, null, "Admin");
-        System.out.println("ultimo caelndario"+id_cal_recien_creado);
+        IMPORTANTE: implantar uso de sesiones a traves de cada ventana que se cree
+        int id_cal_recien_creado=conex_cal.getCalendar(new_email_id);
+        if(id_cal_recien_creado >0)*/
+            conex_cal_per.insertCalendarPermit(1, 3, 1, "Admin");
+        //System.out.println("ultimo calendario"+id_cal_recien_creado);
         /*
         Controlar que no este vacio
         */

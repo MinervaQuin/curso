@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
+import model.User;
 import org.json.simple.JSONObject;
 
 /**
@@ -21,6 +22,7 @@ public class Sign_up extends javax.swing.JFrame {
     /**
      * Creates new form Sign_up
      */
+    private User userRegistered;
     public Sign_up() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -230,11 +232,14 @@ public class Sign_up extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {                                         
         // TODO add your handling code here:       
-        HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();     
+        HerokuUsersSqlConnection conex_us = HerokuUsersSqlConnection.getInstance();     
         String pwd = new String(password.getPassword());
-        if(conex.selectUserByEmail(email.getText())){
-            conex.insertUser(nameUser.getText(), pwd, email.getText(), true);
+        userRegistered=new User(email.getText(),pwd);
+        userRegistered.setId(conex_us.getUserIdByEmail(email.getText()));
+        if(conex_us.selectUserByEmail(email.getText())){
+            conex_us.insertUser(nameUser.getText(), pwd, email.getText(), true);
             MainPage mp = new MainPage();
+            mp.userSignedUp=userRegistered;
             mp.setVisible(true);
             this.setVisible(false);
         }
