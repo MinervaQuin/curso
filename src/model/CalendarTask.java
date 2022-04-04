@@ -2,14 +2,12 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.ListIterator;
 import java.util.Map;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -105,6 +103,4 @@ public class CalendarTask{
     public String toString(){
         return name;
     }
-         
-    
 }
