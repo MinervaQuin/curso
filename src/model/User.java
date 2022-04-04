@@ -1,7 +1,5 @@
 package model;
 
-import java.util.logging.Logger;
-
 public class User {
     
     private int id;
@@ -75,5 +73,4 @@ public class User {
     public String toString(){
         return "ID: " + id + ", Nombre: " + name + ", Email: " + email + ", Contraseña: " + pwd + ", Login: " + login;
     }
-    
 }
