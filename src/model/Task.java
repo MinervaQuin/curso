@@ -1,9 +1,6 @@
-
 package model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Date;
 
 public class Task {
     
@@ -38,5 +35,4 @@ public class Task {
     public int getPrior() {
         return this.prior;
     }
-
 }
