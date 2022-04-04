@@ -7,9 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import model.CalendarTask;
-import model.User;
 
 
 public class HerokuCalendarPermitSqlConnection extends SqlConnection {
@@ -57,7 +54,7 @@ public class HerokuCalendarPermitSqlConnection extends SqlConnection {
                         "ON calendar_permit.user_id = user.user_id \n" +
                         "where user.user_id =" + Integer.toString(user_id) + ";";
         
-        ArrayList<Integer> calendario = new ArrayList<Integer>();
+        ArrayList<Integer> calendario = new ArrayList<>();
         try (Connection conn = this.getSqlConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)){
