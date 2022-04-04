@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Task {
     
-    @JsonProperty("name")
     private String name;
     private String desc;
     private String hour;
