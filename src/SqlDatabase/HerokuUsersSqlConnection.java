@@ -5,13 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.User;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class HerokuUsersSqlConnection extends SqlConnection{
         
@@ -78,10 +73,9 @@ public class HerokuUsersSqlConnection extends SqlConnection{
         }
     }    
     
-    /*metodo que retorna el id del usuario cuyo correo se pasa por parametro*/
     public int getUserIdByEmail(String email) throws SQLException {
         Connection conn = getSqlConnection();
-        
+        System.out.println("Usuario:" );
         try{
             ps = conn.prepareStatement("SELECT * FROM user WHERE email=?");
             ps.setString(1, email);
