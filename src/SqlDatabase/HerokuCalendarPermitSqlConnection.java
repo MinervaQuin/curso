@@ -1,4 +1,3 @@
-
 package SqlDatabase;
 
 import java.sql.Connection;
