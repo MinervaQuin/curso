@@ -14,13 +14,8 @@ import org.json.simple.parser.ParseException;
 
 public class CalendarTask{
     
-    @JsonProperty("dateTasks")
     private final Map<String, List<Task>> dateTasks = new HashMap<>();
-    
-    @JsonProperty("name")
     private String name;
-    
-    @JsonProperty("id")
     private Integer id;
 
     public CalendarTask (){}
