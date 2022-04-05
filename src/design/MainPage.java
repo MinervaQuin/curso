@@ -49,12 +49,10 @@ public class MainPage extends javax.swing.JFrame implements usuario{
         this.setLocationRelativeTo(null);
         this.setExtendedState(MAXIMIZED_BOTH);
         HerokuUsersSqlConnection conex_us = HerokuUsersSqlConnection.getInstance();
-        HerokuCalendarPermitSqlConnection conex_cal_per = HerokuCalendarPermitSqlConnection.getInstance();
+        
         HerokuCalendarSqlConnection conex_cal = HerokuCalendarSqlConnection.getInstance();
         System.out.println("el usuario se llama " +userSigned.getEmail());
-        initCalendars(conex_cal_per);
-        conex_cal.selectAllCalendars();
-        conex_cal_per.selectAllCalendarsIdByIdUser(userSigned.getId());
+        initCalendars();
         userSignedUpmp=userSigned;
         close();
     }
@@ -278,7 +276,8 @@ public class MainPage extends javax.swing.JFrame implements usuario{
     }// </editor-fold>//GEN-END:initComponents
 
 
-    private void initCalendars(HerokuCalendarPermitSqlConnection conex_cal_per){
+    private void initCalendars(){
+        HerokuCalendarPermitSqlConnection conex_cal_per = HerokuCalendarPermitSqlConnection.getInstance();
          ArrayList<Integer> calendars=conex_cal_per.selectAllCalendarsIdByIdUser(userSigned.getId());
          HerokuCalendarSqlConnection conex_cal = HerokuCalendarSqlConnection.getInstance();
          for (int x=0; x<calendars.size(); x++){
