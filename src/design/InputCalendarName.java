@@ -98,17 +98,13 @@ public class InputCalendarName extends javax.swing.JDialog implements usuario{
         HerokuCalendarPermitSqlConnection conex_cal_per = HerokuCalendarPermitSqlConnection.getInstance();
         HerokuCalendarSqlConnection conex_cal = HerokuCalendarSqlConnection.getInstance();
         HerokuTaskSqlConnection conex_task = HerokuTaskSqlConnection.getInstance();
-        //conex_task.insertTask("task0");
         String new_email_id=CalendarName+userSignedIn.getEmail();
         conex_cal.insertCalendar(CalendarName,new_email_id);
         System.out.println("ha llegado");
-        /*metodo obtener id del calendario recientemente creado*/
-        /*prueba con un usuario creado en la base de datos.
-        IMPORTANTE: implantar uso de sesiones a traves de cada ventana que se cree*/
         int id_cal_recien_creado=conex_cal.getCalendar(new_email_id);
         if(id_cal_recien_creado >0)
             conex_cal_per.insertCalendarPermit(userSignedIn.getId(), id_cal_recien_creado, 1, "Admin");
-        //System.out.println("ultimo calendario"+id_cal_recien_creado);
+       
         /*
         Controlar que no este vacio
         */

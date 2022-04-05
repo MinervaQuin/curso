@@ -23,7 +23,7 @@ public class Login extends javax.swing.JFrame implements usuario{
     /**
      * Creates new form Login
      */
-    private User userSignedIn;
+    private User userSingedUp;
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -174,7 +174,7 @@ public class Login extends javax.swing.JFrame implements usuario{
     private void LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginActionPerformed
         String email_text= email.getText();
         String contraseña_text = String.valueOf(contraseña.getPassword());
-        this.userSignedIn = userSigned;
+        
         
         /*Pattern pat_email = Pattern.compile("[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,4}");
         Matcher mat_email = pat_email.matcher(email_text);
@@ -217,7 +217,8 @@ public class Login extends javax.swing.JFrame implements usuario{
                 userSigned.setId(conex_us.getUserIdByEmail(email_text));
                 System.out.println("el ide del usuario insertador es: "+userSigned.getId());
                 //this.userSignedIn.toString();
-                if(conex_us.login(this.userSignedIn)){
+                userSingedUp=userSigned;
+                if(conex_us.login(this.userSingedUp)){
                     JOptionPane.showMessageDialog(null, "Login correcto");
                     System.out.println("Login correcto");
                     MainPage mp = new MainPage();                     

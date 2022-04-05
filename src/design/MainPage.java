@@ -42,7 +42,7 @@ public class MainPage extends javax.swing.JFrame implements usuario{
      * Creates new form MainPage
      */
     
-    public User userSignedUpmp;
+    private User userSignedUpmp;
     public MainPage() throws SQLException, InterruptedException {
         initComponents();
         Color color =new Color(86,47,65);

@@ -18,11 +18,10 @@ import org.json.simple.JSONObject;
  *
  * @author Entrar
  */
-public class Sign_up extends javax.swing.JFrame {
+public class Sign_up extends javax.swing.JFrame implements usuario{
     /**
      * Creates new form Sign_up
      */
-    private User userRegistered;
     public Sign_up() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -236,12 +235,13 @@ public class Sign_up extends javax.swing.JFrame {
         // TODO add your handling code here:       
         HerokuUsersSqlConnection conex_us = HerokuUsersSqlConnection.getInstance();     
         String pwd = new String(password.getPassword());
-        userRegistered=new User(email.getText(),pwd);
-        userRegistered.setId(conex_us.getUserIdByEmail(email.getText()));
+        
         if(conex_us.selectUserByEmail(email.getText())){
             conex_us.insertUser(nameUser.getText(), pwd, email.getText(), true);
+            userSigned.setEmail(email.getText());
+            userSigned.setPwd(pwd);
+            userSigned.setId(conex_us.getUserIdByEmail(email.getText()));
             MainPage mp = new MainPage();
-            mp.userSignedUpmp=userRegistered;
             mp.setVisible(true);
             this.setVisible(false);
         }
