@@ -2,6 +2,7 @@ package design;
 
 import SqlDatabase.HerokuCalendarPermitSqlConnection;
 import SqlDatabase.HerokuCalendarSqlConnection;
+import SqlDatabase.HerokuTaskSqlConnection;
 import SqlDatabase.HerokuUsersSqlConnection;
 import java.awt.Color;
 import model.User;
@@ -10,7 +11,7 @@ import model.User;
  *
  * @author Leyre
  */
-public class InputCalendarName extends javax.swing.JDialog {
+public class InputCalendarName extends javax.swing.JDialog implements usuario{
 
     /**
      * Creates new form InputCalendarName
@@ -96,15 +97,17 @@ public class InputCalendarName extends javax.swing.JDialog {
         //HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();
         HerokuCalendarPermitSqlConnection conex_cal_per = HerokuCalendarPermitSqlConnection.getInstance();
         HerokuCalendarSqlConnection conex_cal = HerokuCalendarSqlConnection.getInstance();
-        /*String new_email_id=CalendarName+userSignedIn.getEmail();
+        HerokuTaskSqlConnection conex_task = HerokuTaskSqlConnection.getInstance();
+        //conex_task.insertTask("task0");
+        String new_email_id=CalendarName+userSignedIn.getEmail();
         conex_cal.insertCalendar(CalendarName,new_email_id);
         System.out.println("ha llegado");
-        metodo obtener id del calendario recientemente creado*/
+        /*metodo obtener id del calendario recientemente creado*/
         /*prueba con un usuario creado en la base de datos.
-        IMPORTANTE: implantar uso de sesiones a traves de cada ventana que se cree
+        IMPORTANTE: implantar uso de sesiones a traves de cada ventana que se cree*/
         int id_cal_recien_creado=conex_cal.getCalendar(new_email_id);
-        if(id_cal_recien_creado >0)*/
-            conex_cal_per.insertCalendarPermit(1, 3, 1, "Admin");
+        if(id_cal_recien_creado >0)
+            conex_cal_per.insertCalendarPermit(userSignedIn.getId(), id_cal_recien_creado, 1, "Admin");
         //System.out.println("ultimo calendario"+id_cal_recien_creado);
         /*
         Controlar que no este vacio

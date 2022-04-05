@@ -8,7 +8,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import model.User;
 
-public class HerokuUsersSqlConnection extends SqlConnection{
+public class HerokuUsersSqlConnection extends SqlConnection {
         
     private static HerokuUsersSqlConnection instance;
     private String emailUser;

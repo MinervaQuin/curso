@@ -110,6 +110,8 @@ public class Sign_up extends javax.swing.JFrame {
                     jButton1ActionPerformed(evt);
                 } catch (SQLException ex) {
                     Logger.getLogger(Sign_up.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Sign_up.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -230,7 +232,7 @@ public class Sign_up extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                        
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws SQLException {                                         
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws SQLException, InterruptedException {                                         
         // TODO add your handling code here:       
         HerokuUsersSqlConnection conex_us = HerokuUsersSqlConnection.getInstance();     
         String pwd = new String(password.getPassword());
@@ -239,7 +241,7 @@ public class Sign_up extends javax.swing.JFrame {
         if(conex_us.selectUserByEmail(email.getText())){
             conex_us.insertUser(nameUser.getText(), pwd, email.getText(), true);
             MainPage mp = new MainPage();
-            mp.userSignedUp=userRegistered;
+            mp.userSignedUpmp=userRegistered;
             mp.setVisible(true);
             this.setVisible(false);
         }

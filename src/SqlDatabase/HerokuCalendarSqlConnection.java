@@ -43,14 +43,15 @@ public class HerokuCalendarSqlConnection extends SqlConnection {
     }
     
     public void selectAllCalendars() {
-        String sql = "SELECT * FROM calendars";
+        String sql = "SELECT * FROM calendar";
         try (Connection conn = this.getSqlConnection();
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)){
             while (rs.next()) {
-            System.out.println(rs.getInt("user_id") + "\t" +
-                        rs.getString("name") + "\t"
-            );
+                System.out.println(rs.getInt("calendar_id") + "\t" +
+                            rs.getString("name") + "\t" +
+                        rs.getString("email_owner")
+                );
             }
         } catch (SQLException e) {
             System.out.println("Error al seleccionar todo en la tabla CALENDAR: " + e.getMessage());

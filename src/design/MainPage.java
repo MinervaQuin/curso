@@ -33,7 +33,7 @@ import model.User;
  *
  * @author Leyre
  */
-public class MainPage extends javax.swing.JFrame {
+public class MainPage extends javax.swing.JFrame implements usuario{
 
     int posicionCalendariox = 6;
     int posicionCalendarioy = 39;
@@ -42,18 +42,20 @@ public class MainPage extends javax.swing.JFrame {
      * Creates new form MainPage
      */
     
-    public User userSignedUp;
-    public MainPage() throws SQLException {
+    public User userSignedUpmp;
+    public MainPage() throws SQLException, InterruptedException {
         initComponents();
         Color color =new Color(86,47,65);
         this.setLocationRelativeTo(null);
         this.setExtendedState(MAXIMIZED_BOTH);
         HerokuUsersSqlConnection conex_us = HerokuUsersSqlConnection.getInstance();
         HerokuCalendarPermitSqlConnection conex_cal_per = HerokuCalendarPermitSqlConnection.getInstance();
-        int user_id=conex_us.getUserIdByEmail("user@gmail.com");
-        initCalendars(conex_cal_per, user_id);
-        userSignedUp=new User();
-        userSignedUp.setEmail("user@gmail.com");
+        HerokuCalendarSqlConnection conex_cal = HerokuCalendarSqlConnection.getInstance();
+        System.out.println("el usuario se llama " +userSigned.getEmail());
+        initCalendars(conex_cal_per);
+        conex_cal.selectAllCalendars();
+        conex_cal_per.selectAllCalendarsIdByIdUser(userSigned.getId());
+        userSignedUpmp=userSigned;
         close();
     }
 
@@ -76,6 +78,7 @@ public class MainPage extends javax.swing.JFrame {
         configuration = new javax.swing.JButton();
         alert = new javax.swing.JButton();
         users1 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -153,6 +156,13 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -171,7 +181,10 @@ public class MainPage extends javax.swing.JFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(128, 128, 128)
-                        .addComponent(singout, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(singout, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(jButton1)))
                 .addContainerGap(38, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
@@ -195,7 +208,9 @@ public class MainPage extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 347, Short.MAX_VALUE)
+                .addGap(64, 64, 64)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 258, Short.MAX_VALUE)
                 .addComponent(configuration, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,9 +290,14 @@ public class MainPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        HerokuCalendarPermitSqlConnection conex_cal_per = HerokuCalendarPermitSqlConnection.getInstance();
+        initCalendars(conex_cal_per);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void initCalendars(HerokuCalendarPermitSqlConnection conex_cal_per, int user_id){
-         ArrayList<Integer> calendars=conex_cal_per.selectAllCalendarsIdByIdUser(user_id);
+
+    private void initCalendars(HerokuCalendarPermitSqlConnection conex_cal_per){
+         ArrayList<Integer> calendars=conex_cal_per.selectAllCalendarsIdByIdUser(userSigned.getId());
          HerokuCalendarSqlConnection conex_cal = HerokuCalendarSqlConnection.getInstance();
          for (int x=0; x<calendars.size(); x++){
              String calendar_name=conex_cal.getCalendarNameById(calendars.get(x));
@@ -294,8 +314,9 @@ public class MainPage extends javax.swing.JFrame {
 
     private void singoutActionPerformed(java.awt.event.ActionEvent evt) {                                        
         HerokuUsersSqlConnection conex_us = HerokuUsersSqlConnection.getInstance();
+        
         try {
-            if(conex_us.signOut2(this.userSignedUp)){
+            if(conex_us.signOut2(this.userSignedUpmp)){
                 System.out.println("El signOut se ha realizado de forma correcta");
                 this.setVisible(false);
                 System.exit(0);
@@ -329,7 +350,7 @@ public class MainPage extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                             
         InputCalendarName inputCalendarName = new InputCalendarName();
-        inputCalendarName.userSignedIn=this.userSignedUp;
+        inputCalendarName.userSignedIn=userSigned;
         inputCalendarName.setVisible(true);
         
         
@@ -353,7 +374,7 @@ public class MainPage extends javax.swing.JFrame {
     public void confirmarSalida() {
         HerokuUsersSqlConnection conex = HerokuUsersSqlConnection.getInstance();
         try {
-            if(conex.signOut2(userSignedUp)){
+            if(conex.signOut2(userSignedUpmp)){
                 System.out.println("El signOut se ha realizado de forma correcta");
                 this.setVisible(false);
                 System.exit(0);
@@ -464,6 +485,8 @@ public class MainPage extends javax.swing.JFrame {
                     new MainPage().setVisible(true);
                 } catch (SQLException ex) {
                     Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -473,6 +496,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JButton alert;
     private javax.swing.JButton configuration;
     private javax.swing.JTextPane description;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
