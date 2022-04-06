@@ -100,7 +100,6 @@ public class InputCalendarName extends javax.swing.JDialog implements usuario{
         HerokuTaskSqlConnection conex_task = HerokuTaskSqlConnection.getInstance();
         String new_email_id=CalendarName+userSignedIn.getEmail();
         conex_cal.insertCalendar(CalendarName,new_email_id);
-        System.out.println("ha llegado");
         int id_cal_recien_creado=conex_cal.getCalendar(new_email_id);
         if(id_cal_recien_creado >0)
             conex_cal_per.insertCalendarPermitTaskNull(userSignedIn.getId(), id_cal_recien_creado, "Admin");

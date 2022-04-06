@@ -50,7 +50,7 @@ public class HerokuCalendarSqlConnection extends SqlConnection {
             while (rs.next()) {
                 System.out.println(rs.getInt("calendar_id") + "\t" +
                             rs.getString("name") + "\t" +
-                        rs.getString("special_id")
+                            rs.getString("special_id")
                 );
             }
         } catch (SQLException e) {

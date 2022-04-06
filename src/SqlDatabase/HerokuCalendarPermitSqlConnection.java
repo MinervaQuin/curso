@@ -123,6 +123,7 @@ public class HerokuCalendarPermitSqlConnection extends SqlConnection {
             PreparedStatement ps = conn.prepareStatement("INSERT INTO calendar_permit(user_id, calendar_id, task_id, rol) VALUES(?,?,?,?)");
             ps.setInt(1, user_id);
             ps.setInt(2, calendar_id);
+            ps.setInt(3, 1);
             ps.setString(4, rol);
             // ps.execute();  
             int res = ps.executeUpdate();
