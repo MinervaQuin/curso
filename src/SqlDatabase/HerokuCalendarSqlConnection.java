@@ -50,7 +50,7 @@ public class HerokuCalendarSqlConnection extends SqlConnection {
             while (rs.next()) {
                 System.out.println(rs.getInt("calendar_id") + "\t" +
                             rs.getString("name") + "\t" +
-                        rs.getString("email_owner")
+                        rs.getString("special_id")
                 );
             }
         } catch (SQLException e) {
@@ -62,7 +62,7 @@ public class HerokuCalendarSqlConnection extends SqlConnection {
     public void insertCalendar(String name, String new_id_email) {
         Connection conn = getSqlConnection();        
         try{
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO calendar(name, email_owner) VALUES(?,?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO calendar(name, special_id) VALUES(?,?)");
             ps.setString(1, name);
             ps.setString(2, new_id_email);
             // ps.execute();  
@@ -183,7 +183,7 @@ public class HerokuCalendarSqlConnection extends SqlConnection {
         Connection conn = getSqlConnection();
         int calendar_id=-1;
         try{
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM calendar WHERE email_owner=?");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM calendar WHERE special_id=?");
             ps.setString(1, email_id);
             ResultSet rs = ps.executeQuery();
             

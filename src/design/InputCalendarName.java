@@ -103,7 +103,7 @@ public class InputCalendarName extends javax.swing.JDialog implements usuario{
         System.out.println("ha llegado");
         int id_cal_recien_creado=conex_cal.getCalendar(new_email_id);
         if(id_cal_recien_creado >0)
-            conex_cal_per.insertCalendarPermit(userSignedIn.getId(), id_cal_recien_creado, 1, "Admin");
+            conex_cal_per.insertCalendarPermitTaskNull(userSignedIn.getId(), id_cal_recien_creado, "Admin");
        
         /*
         Controlar que no este vacio

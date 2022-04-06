@@ -225,7 +225,7 @@ public class Login extends javax.swing.JFrame implements usuario{
                     mp.setVisible(true);
                     this.setVisible(false);
                 }else {
-                    JOptionPane.showMessageDialog(null, "Login incorrecto");
+                    JOptionPane.showMessageDialog(null, "Ese usuario no está registrado");
                     System.out.println("Login incorrecto");                    
                 }
             } catch (SQLException ex) {
