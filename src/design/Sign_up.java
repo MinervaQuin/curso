@@ -237,6 +237,31 @@ public class Sign_up extends javax.swing.JFrame implements usuario{
         HerokuUsersSqlConnection conex_us = HerokuUsersSqlConnection.getInstance();     
         String pwd = new String(password.getPassword());
         
+        /*Pattern pat_email = Pattern.compile("[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,4}");
+        Matcher mat_email = pat_email.matcher(email_text);
+        Pattern pat_password = Pattern.compile("^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,15}$");
+        Matcher mat_password = pat_password.matcher(contraseña_text);
+        if(email_text.isEmpty()){
+            JOptionPane.showMessageDialog(null, "El correo es obligatorio");
+            System.out.println("El correo es obligatorio");
+        }else if(!mat_email.matches()){
+            JOptionPane.showMessageDialog(null, "Se esperaba una dirección de correo electrónico");
+            System.out.println("Se esperaba una dirección de correo electrónico");
+        }else if(contraseña_text.isEmpty()){
+            JOptionPane.showMessageDialog(null, "La contraseña es obligatoria");
+            System.out.println("La contraseña es obligatoria");
+        }else if(contraseña_text.length() < 8){
+            JOptionPane.showMessageDialog(null, "La contraseña debe tener más de 8 dígitos");
+            System.out.println("La contraseña debe tener más de 8 dígitos");
+        }else if(contraseña_text.length() > 15){
+            JOptionPane.showMessageDialog(null, "La contraseña debe tener menos de 15 dígitos");
+            System.out.println("La contraseña debe tener menos de 15 dígitos");
+        }else if(!mat_password.matches()){
+            JOptionPane.showMessageDialog(null, "Se esperaba una contraseña con mínimo una minúscula, una masyúscula, un dígito numérico y sin espacios");
+            System.out.println("Se esperaba una contraseña con mínimo una minúscula, una masyúscula, un dígito numérico y sin espacios");
+        }else{*/
+        
+        
         try {
             if(conex_us.selectUserByEmail(email.getText())){
                 conex_us.insertUser(nameUser.getText(), pwd, email.getText(), true);
@@ -250,6 +275,9 @@ public class Sign_up extends javax.swing.JFrame implements usuario{
         } catch (SQLException ex) {
             Logger.getLogger(Sign_up.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //  }
+
+       //  }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {                                      
