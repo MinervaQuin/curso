@@ -287,28 +287,4 @@ public class HerokuUsersSqlConnection extends SqlConnection {
         }
         return false;
     }
-    /*este método no pertenece a esta clase no?
-    public void insertCalendar(String name) {
-        Connection conn = getSqlConnection();        
-        try{
-            ps = conn.prepareStatement("INSERT INTO calendar(name) VALUES(?)");
-            ps.setString(1, name);
-            // ps.execute();  
-            int res = ps.executeUpdate();
-            /*
-            if(res > 0){
-                JOptionPane.showMessageDialog(null, "Calendario insertado correctamente");
-                System.out.println("Calendario insertado correctamente");
-            }else{
-                JOptionPane.showMessageDialog(null, "Usuario insertado incorrectamente");
-                System.out.println("Calendario insertado incorrectamente");
-            }
-            
-            conn.close();
-            
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al insertar en la tabla calendar: " + e.getMessage());
-            System.out.println("Error al insertar en la tabla calendar: " + e.getMessage());
-        }
-    }*/
 }
