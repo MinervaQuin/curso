@@ -13,6 +13,9 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import model.User;
 import org.json.simple.JSONObject;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -238,46 +241,42 @@ public class Sign_up extends javax.swing.JFrame implements usuario{
         String pwd = new String(password.getPassword());
         
         /*Pattern pat_email = Pattern.compile("[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,4}");
-        Matcher mat_email = pat_email.matcher(email_text);
+        Matcher mat_email = pat_email.matcher(email.getText());
         Pattern pat_password = Pattern.compile("^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,15}$");
-        Matcher mat_password = pat_password.matcher(contraseña_text);
-        if(email_text.isEmpty()){
+        Matcher mat_password = pat_password.matcher(pwd);
+        if(email.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "El correo es obligatorio");
             System.out.println("El correo es obligatorio");
         }else if(!mat_email.matches()){
             JOptionPane.showMessageDialog(null, "Se esperaba una dirección de correo electrónico");
             System.out.println("Se esperaba una dirección de correo electrónico");
-        }else if(contraseña_text.isEmpty()){
+        }else if(pwd.isEmpty()){
             JOptionPane.showMessageDialog(null, "La contraseña es obligatoria");
             System.out.println("La contraseña es obligatoria");
-        }else if(contraseña_text.length() < 8){
+        }else if(pwd.length() < 8){
             JOptionPane.showMessageDialog(null, "La contraseña debe tener más de 8 dígitos");
             System.out.println("La contraseña debe tener más de 8 dígitos");
-        }else if(contraseña_text.length() > 15){
+        }else if(pwd.length() > 15){
             JOptionPane.showMessageDialog(null, "La contraseña debe tener menos de 15 dígitos");
             System.out.println("La contraseña debe tener menos de 15 dígitos");
         }else if(!mat_password.matches()){
             JOptionPane.showMessageDialog(null, "Se esperaba una contraseña con mínimo una minúscula, una masyúscula, un dígito numérico y sin espacios");
             System.out.println("Se esperaba una contraseña con mínimo una minúscula, una masyúscula, un dígito numérico y sin espacios");
         }else{*/
-        
-        
-        try {
-            if(conex_us.selectUserByEmail(email.getText())){
-                conex_us.insertUser(nameUser.getText(), pwd, email.getText(), true);
-                userSigned.setEmail(email.getText());
-                userSigned.setPwd(pwd);
-                userSigned.setId(conex_us.getUserIdByEmail(email.getText()));
-                MainPage mp = new MainPage();
-                mp.setVisible(true);
-                this.setVisible(false);
+            try {
+                if(conex_us.selectUserByEmail(email.getText())){
+                    conex_us.insertUser(nameUser.getText(), pwd, email.getText(), true);
+                    userSigned.setEmail(email.getText());
+                    userSigned.setPwd(pwd);
+                    userSigned.setId(conex_us.getUserIdByEmail(email.getText()));
+                    MainPage mp = new MainPage();
+                    mp.setVisible(true);
+                    this.setVisible(false);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Sign_up.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(Sign_up.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //  }
-
-       //  }
+        // }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {                                      
