@@ -53,10 +53,10 @@ public class MainPage2 extends javax.swing.JFrame {
         HerokuUsersSqlConnection conex_us = HerokuUsersSqlConnection.getInstance();
         HerokuCalendarPermitSqlConnection conex_cal_per = HerokuCalendarPermitSqlConnection.getInstance();
         
-        int user_id=conex_us.getUserIdByEmail("user@gmail.com");
+        
         initCalendars(conex_cal_per);
         userSignedUpmp=new User();
-        userSignedUpmp.setEmail("user@gmail.com");
+        userSignedUpmp.setEmail("jose");
         
         close();
     }
@@ -280,8 +280,9 @@ public class MainPage2 extends javax.swing.JFrame {
     }// </editor-fold>                        
 
 
-    private void initCalendars(HerokuCalendarPermitSqlConnection conex_cal_per){
-         ArrayList<Integer> calendars=conex_cal_per.selectAllCalendarsIdByIdUser(1);
+    private void initCalendars(HerokuCalendarPermitSqlConnection conex_cal_per) throws SQLException{
+        HerokuUsersSqlConnection conex_us = HerokuUsersSqlConnection.getInstance();
+         ArrayList<Integer> calendars=conex_cal_per.selectAllCalendarsIdByIdUser(conex_us.getUserIdByEmail("jose"));
          HerokuCalendarSqlConnection conex_cal = HerokuCalendarSqlConnection.getInstance();
          for (int x=0; x<calendars.size(); x++){
              String calendar_name=conex_cal.getCalendarNameById(calendars.get(x));

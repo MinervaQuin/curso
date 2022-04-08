@@ -106,11 +106,11 @@ public class HerokuUsersSqlConnection extends SqlConnection {
             rs = ps.executeQuery();
             
             if (rs.next()) {
-                JOptionPane.showMessageDialog(null, "Si existe ningún usuario con ese id");
-                System.out.println("Si existe usuario con ese id");
+                JOptionPane.showMessageDialog(null, "Ya existe un usuario con ese id");
+                System.out.println("Ya existe un usuario con ese id");
                 return false;
             } else {
-                JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese id");
+                //JOptionPane.showMessageDialog(null, "No existe ningún usuario con ese id");
                 System.out.println("No existe ningún usuario con ese id");
                 return true;
             }

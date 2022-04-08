@@ -43,7 +43,7 @@ public class MainPage extends javax.swing.JFrame implements usuario{
      */
     
     private User userSignedUpmp;
-    public MainPage() throws SQLException, InterruptedException {
+    public MainPage() throws SQLException {
         initComponents();
         Color color =new Color(86,47,65);
         this.setLocationRelativeTo(null);
@@ -465,8 +465,6 @@ public class MainPage extends javax.swing.JFrame implements usuario{
                 try {
                     new MainPage().setVisible(true);
                 } catch (SQLException ex) {
-                    Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InterruptedException ex) {
                     Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
