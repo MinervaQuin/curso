@@ -230,9 +230,7 @@ public class Login extends javax.swing.JFrame implements usuario{
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            }
        //  }
     }//GEN-LAST:event_LoginActionPerformed
 
